@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <v-app-bar app color="primary" dark>
-    <v-toolbar-title>{{ appName }}</v-toolbar-title>
+    <v-toolbar-title>{{ settings.appName }}</v-toolbar-title>
   </v-app-bar>
 
   <v-main>
@@ -14,12 +14,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useStoreSettings } from './stores/settings';
 
 export default defineComponent ({
   setup () {
-    const appName = ref<string>('精算アプリ')
+    // const appName = ref<string>('精算アプリ')
+    const settings = useStoreSettings();
     return {
-      appName,
+      settings,
     }
   }
 })
