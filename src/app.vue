@@ -20,7 +20,7 @@ export default defineComponent ({
     const appName = ref<string>('精算アプリ')
     return {
       appName,
-     }
+    }
   }
 })
 </script>
