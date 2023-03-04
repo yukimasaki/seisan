@@ -6,4 +6,5 @@ export const useStoreSettings = defineStore(
     state: () => ({
       appName: 'せいさんあぷり'
     }),
-  })
+  }
+)

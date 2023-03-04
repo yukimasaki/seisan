@@ -18,8 +18,8 @@ import { useStoreSettings } from './stores/settings';
 
 export default defineComponent ({
   setup () {
-    // const appName = ref<string>('精算アプリ')
     const settings = useStoreSettings();
+
     return {
       settings,
     }
