@@ -1,5 +1,5 @@
 <template>
   <div>
-    <NuxtPage />
+    this is register page.
   </div>
 </template>
