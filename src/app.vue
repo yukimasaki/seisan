@@ -12,13 +12,13 @@
 </v-app>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useStoreSettings } from './stores/settings';
+<script>
+import { defineComponent } from 'vue'
+import { useStoreSettings } from './stores/settings'
 
 export default defineComponent ({
   setup () {
-    const settings = useStoreSettings();
+    const settings = useStoreSettings()
 
     return {
       settings,

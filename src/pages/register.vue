@@ -10,15 +10,21 @@
           <v-form>
             <v-text-field
               label="メールアドレス"
-              v-model="credentials.email"
+              v-model="email"
+            />
+            <v-text-field
+              label="ユーザー名"
+              v-model="username"
             />
             <v-text-field
               label="パスワード"
-              v-model="credentials.password"
+              v-model="password"
+              type="password"
             />
             <v-text-field
-              label="パスワード"
-              v-model="credentials.passwordRepeat"
+              label="パスワード(再入力)"
+              v-model="passwordRepeat"
+              type="password"
             />
           </v-form>
         </v-card-text>
@@ -31,14 +37,33 @@
   </v-row>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script>
+import { defineComponent } from 'vue'
 
 export default defineComponent ({
   setup () {
-    const client = useSupabaseClient();
-    return {}
+    const email = ref('')
+    const username = ref('')
+    const password = ref('')
+    const passwordRepeat = ref('')
+
+    const register = async () => {
+      const client = useSupabaseAuthClient()
+
+      const session = await client.auth.signUp({
+        email: email.value,
+        password: password.value
+      })
+
+      await client
+      .from('profiles')
+      .insert({
+        id: session.user.id,
+        username: username.value,
+      })
+    }
+
+    return { email, username, password, passwordRepeat, register }
   }
 })
-
 </script>

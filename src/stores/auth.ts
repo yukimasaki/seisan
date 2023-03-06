@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 type authType = {
   user: object | null,
@@ -14,10 +14,10 @@ export const useStoreAuth = defineStore<string, authType>({
   },
   actions: {
     setUser(user: object) {
-      this.user = user;
+      this.user = user
     },
     clearUser() {
-      this.user = null;
+      this.user = null
     },
   },
 });
