@@ -3,7 +3,7 @@
     <v-col cols="12" sm="12" md="4">
       <v-card>
         <v-card-title class="justify-center" mb-3>
-          <h1 class="display-1">ログイン</h1>
+          <h1 class="display-1">ユーザー登録</h1>
         </v-card-title>
 
         <v-card-text>
@@ -43,27 +43,26 @@ import { defineComponent } from 'vue'
 export default defineComponent ({
   setup () {
     const email = ref('')
-    const username = ref('')
     const password = ref('')
     const passwordRepeat = ref('')
+    const username = ref('')
 
     const register = async () => {
       const client = useSupabaseAuthClient()
 
       const session = await client.auth.signUp({
         email: email.value,
-        password: password.value
-      })
-
-      await client
-      .from('profiles')
-      .insert({
-        id: session.user.id,
-        username: username.value,
+        password: password.value,
+        options: {
+          data: {
+            email: email.value,
+            username: username.value
+          }
+        }
       })
     }
 
-    return { email, username, password, passwordRepeat, register }
+    return { email, password, username, passwordRepeat, register }
   }
 })
 </script>
