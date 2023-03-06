@@ -3,7 +3,7 @@
     <v-col cols="12" sm="12" md="4">
       <v-card>
         <v-card-title class="justify-center" mb-3>
-          <h1 class="display-1">ユーザー登録</h1>
+          <h1 class="display-1">ログイン</h1>
         </v-card-title>
 
         <v-card-text>
@@ -13,24 +13,15 @@
               v-model="email"
             />
             <v-text-field
-              label="ユーザー名"
-              v-model="username"
-            />
-            <v-text-field
               label="パスワード"
               v-model="password"
-              type="password"
-            />
-            <v-text-field
-              label="パスワード(再入力)"
-              v-model="passwordRepeat"
               type="password"
             />
           </v-form>
         </v-card-text>
 
         <v-card-actions class="justify-center">
-          <v-btn @click="register">登録</v-btn>
+          <v-btn @click="login">ログイン</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -44,25 +35,30 @@ export default defineComponent ({
   setup () {
     const email = ref('')
     const password = ref('')
-    const passwordRepeat = ref('')
-    const username = ref('')
 
-    const register = async () => {
+    const login = async () => {
       const client = useSupabaseAuthClient()
 
-      await client.auth.signUp({
+      const error = await client.auth.signInWithPassword({
         email: email.value,
         password: password.value,
-        options: {
-          data: {
-            email: email.value,
-            username: username.value
-          }
-        }
       })
+
+      if (!error) return router.push('/')
+
+      console.log(error)
     }
 
-    return { email, password, username, passwordRepeat, register }
+    watchEffect (async () => {
+      const router = useRouter()
+      const user = useSupabaseUser()
+
+      if (user.value) {
+        await router.push('/')
+      }
+    })
+
+    return { email, password, login }
   }
 })
 </script>
