@@ -11,20 +11,20 @@
         <v-card-text>
           <v-form>
             <v-text-field
-              v-model="email"
+              v-model="credentials.email"
               label="メールアドレス"
             />
             <v-text-field
-              v-model="username"
+              v-model="credentials.username"
               label="ユーザー名"
             />
             <v-text-field
-              v-model="password"
+              v-model="credentials.password"
               label="パスワード"
               type="password"
             />
             <v-text-field
-              v-model="passwordRepeat"
+              v-model="credentials.passwordRepeat"
               label="パスワード(再入力)"
               type="password"
             />
@@ -47,16 +47,27 @@ export default {
 
   data () {
     return {
-      email: '',
-      password: '',
-      passwordRepeat: '',
-      username: ''
+      credentials: {
+        email: '',
+        password: '',
+        passwordRepeat: '',
+        username: ''
+      }
     }
   },
 
   methods: {
-    async register () {
-
+    async register (credentials) {
+      await this.$db.auth.signUp({
+        email: credentials.email,
+        password: credentials.password,
+        options: {
+          data: {
+            email: credentials.email,
+            username: credentials.username
+          }
+        }
+      })
     }
   }
 }
