@@ -33,7 +33,7 @@
   const password = ref('')
 
   const login = () => {
-    console.log(`login: `)
+    console.log(`email: `)
     console.log(email.value)
     console.log(`password: `)
     console.log(password.value)
