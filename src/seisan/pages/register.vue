@@ -38,15 +38,57 @@
 </template>
 
 <script setup>
+
+  const user = useSupabaseUser()
+  const { auth } = useSupabaseAuthClient()
+
   const email = ref('')
   const username = ref('')
   const password = ref('')
   const passwordRepeat = ref('')
+  const errorMsg = ref('')
 
-  const register = () => {
-    console.log(`email: ${email.value}`)
-    console.log(`username: ${username.value}`)
-    console.log(`password: ${password.value}`)
-    console.log(`passwordRepeat: ${passwordRepeat.value}`)
+  const register = async () => {
+    if (password.value !== passwordRepeat.value) {
+      errorMsg.value = 'パスワードが一致しません'
+      password.value = ''
+      passwordRepeat.value = ''
+
+      setTimeout(() => {
+        errorMsg.value = ''
+      }, 3000)
+      return
+    }
+
+    try {
+      const { error } = await auth.signUp({
+        email: email.value,
+        password: password.value,
+        options: {
+          data: {
+            username: username.value,
+            email: email.value
+          }
+        }
+      })
+      
+      email.value = ''
+      password.value = ''
+      passwordRepeat.value = ''
+
+      if (error) throw error
+    } catch (error) {
+      errorMsg.value = error.message
+      console.log(errorMsg.value)
+      setTimeout(() => {
+        errorMsg.value = ''
+      }, 3000)
+    }
   }
+
+  watchEffect(() => {
+    if (user.value) {
+      return navigateTo('/')
+    }
+  })
 </script>

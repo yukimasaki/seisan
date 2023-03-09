@@ -16,7 +16,7 @@
 
 <script setup>
   import { useStoreSettings } from './stores/settings'
-  import { useStoreAuth } from './stores/settings'
+  import { useStoreAuth } from './stores/auth'
 
   const settings = useStoreSettings()
   const auth = useStoreAuth()
