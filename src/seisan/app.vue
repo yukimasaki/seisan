@@ -15,7 +15,9 @@
 </template>
 
 <script setup>
-  import { useStoreSettings } from './stores/settings';
+  import { useStoreSettings } from './stores/settings'
+  import { useStoreAuth } from './stores/settings'
 
   const settings = useStoreSettings()
+  const auth = useStoreAuth()
 </script>
