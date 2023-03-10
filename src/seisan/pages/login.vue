@@ -29,7 +29,14 @@
 </template>
 
 <script setup>
+  definePageMeta({
+    middleware: 'authenticated'
+  })
+
+  const storeAuth = useStoreAuth()
+
   const { auth } = useSupabaseAuthClient()
+  const router = useRouter()
 
   const email = ref('')
   const password = ref('')
@@ -41,9 +48,9 @@
         email: email.value,
         password: password.value
       })
-      console.log(data)
       if (error) throw error
-      if (data) navigateTo('/')
+      storeAuth.setUser(data)
+      router.push('/')
     } catch (error) {
       errorMsg.value = error.message
       alert(errorMsg.value)

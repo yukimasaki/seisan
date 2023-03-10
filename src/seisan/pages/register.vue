@@ -38,6 +38,9 @@
 </template>
 
 <script setup>
+  definePageMeta({
+    middleware: 'authenticated'
+  })
 
   const user = useSupabaseUser()
   const { auth } = useSupabaseAuthClient()
@@ -89,9 +92,9 @@
   /** 現状は、watchEffectでナビゲーションガードを実装している
    *  TODO: router側で統一的に処理するようにする
    */
-  watchEffect(() => {
-    if (user.value) {
-      return navigateTo('/')
-    }
-  })
+  // watchEffect(() => {
+  //   if (user.value) {
+  //     return navigateTo('/')
+  //   }
+  // })
 </script>

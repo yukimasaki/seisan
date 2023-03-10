@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-definePageMeta({
-  middleware: 'require-auth'
-})
+  definePageMeta({
+    middleware: 'require-auth'
+  })
 </script>

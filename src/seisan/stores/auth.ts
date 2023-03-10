@@ -10,7 +10,7 @@ export const useStoreAuth = defineStore({
   getters: {
     isLoggedIn: (state) => state.user,
   },
-
+  
   actions: {
     setUser(user) {
       this.user = user

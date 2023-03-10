@@ -2,9 +2,10 @@
  *  ユーザーがログインしていない場合は、ログインページにリダイレクトする。
  */
 export default defineNuxtRouteMiddleware((to, _from) => {
-  const user = useSupabaseUser()
+  const storeAuth = useStoreAuth()
+  const router = useRouter()
 
-  if (!user.value) {
-    return navigateTo('/login')
+  if (storeAuth.isLoggedIn == null) {
+    return router.push('/login')
   }
 })

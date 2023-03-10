@@ -15,21 +15,9 @@
 </template>
 
 <script setup>
-  import { useStoreSettings } from './stores/settings'
-  import { useStoreAuth } from './stores/auth'
-
   const storeSettings = useStoreSettings()
   const storeAuth = useStoreAuth()
 
   const user = useSupabaseUser()
-  const { auth } = useSupabaseAuthClient()
-
   storeAuth.setUser(user)
-  auth.onAuthStateChange((event, session) => {
-    if (event == 'SIGNED_IN') {
-      storeAuth.setUser(session.user)
-    }
-    if (event == 'SIGNED_OUT') storeAuth.clearUser()
-  })
-
 </script>

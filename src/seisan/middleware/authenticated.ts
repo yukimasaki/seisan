@@ -4,10 +4,15 @@
 export default defineNuxtRouteMiddleware((to, _from) => {
   const user = useSupabaseUser()
   const route = useRoute()
+  const router = useRouter()
 
-  /** 認証済みユーザーが登録ページにアクセスした場合 */
+  const rules = [
+    user.value != null && route.path == '/register' ? true : false,
+    user.value != null && route.path == '/login' ? true : false
+  ]
 
-
-  /** 認証済みユーザーがログインページにアクセスした場合 */
+  rules.some(v => {
+    if (v == true) return router.push('/')
+  })
 
 })
