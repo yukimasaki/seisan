@@ -2,13 +2,13 @@
  *  指定したページにリダイレクトさせるミドルウェア
  */
 export default defineNuxtRouteMiddleware((to, _from) => {
-  const user = useSupabaseUser()
+  const storeAuth = useStoreAuth()
   const route = useRoute()
   const router = useRouter()
 
   const rules = [
-    user.value != null && route.path == '/register' ? true : false,
-    user.value != null && route.path == '/login' ? true : false
+    storeAuth.isLoggedIn != null && route.path == '/register' ? true : false,
+    storeAuth.isLoggedIn != null && route.path == '/login' ? true : false
   ]
 
   rules.some(v => {

@@ -49,6 +49,7 @@
         password: password.value
       })
       if (error) throw error
+      console.log(data)
       storeAuth.setUser(data)
       router.push('/')
     } catch (error) {
