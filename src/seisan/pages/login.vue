@@ -50,7 +50,7 @@
       })
       if (error) throw error
       console.log(data)
-      storeAuth.setUser(data)
+      storeAuth.setUser(data.session.user)
       router.push('/')
     } catch (error) {
       errorMsg.value = error.message

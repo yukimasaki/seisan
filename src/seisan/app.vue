@@ -19,7 +19,7 @@
   const storeAuth = useStoreAuth()
 
   const user = useSupabaseUser()
-  const auth = useSupabaseAuthClient()
+  const { auth } = useSupabaseAuthClient()
 
   storeAuth.setUser(user)
 
