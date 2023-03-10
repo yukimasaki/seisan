@@ -72,13 +72,6 @@
         }
       })
 
-      /**
-       * 登録処理が完了するとdataオブジェクトが返る。
-      * TODO: app.vueにonAuthStateChange()を追記し、Storeにユーザ情報を保持する処理を実装する
-       */
-
-      if (data) console.log(data)
-      
       email.value = ''
       password.value = ''
       passwordRepeat.value = ''
