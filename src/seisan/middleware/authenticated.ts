@@ -6,6 +6,9 @@ export default defineNuxtRouteMiddleware((to, _from) => {
   const route = useRoute()
   const router = useRouter()
 
+  const user = useSupabaseUser()
+  storeAuth.setUser(user.value)
+
   const rules = [
     storeAuth.isLoggedIn != null && route.path == '/register' ? true : false,
     storeAuth.isLoggedIn != null && route.path == '/login' ? true : false

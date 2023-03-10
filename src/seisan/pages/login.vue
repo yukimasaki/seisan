@@ -49,8 +49,9 @@
         password: password.value
       })
       if (error) throw error
-      console.log(data)
-      storeAuth.setUser(data.session.user)
+      console.log(`data.user:`)
+      console.log(data.user)
+      storeAuth.setUser(data.user)
       router.push('/')
     } catch (error) {
       errorMsg.value = error.message
