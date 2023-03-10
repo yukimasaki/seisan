@@ -29,13 +29,27 @@
 </template>
 
 <script setup>
+  const { auth } = useSupabaseAuthClient()
+
   const email = ref('')
   const password = ref('')
+  const errorMsg = ref('')
 
-  const login = () => {
-    console.log(`email: `)
-    console.log(email.value)
-    console.log(`password: `)
-    console.log(password.value)
+  const login = async () => {
+    try {
+      const { data, error } = await auth.signInWithPassword({
+        email: email.value,
+        password: password.value
+      })
+      console.log(data)
+      if (error) throw error
+      if (data) navigateTo('/')
+    } catch (error) {
+      errorMsg.value = error.message
+      alert(errorMsg.value)
+      setTimeout(() => {
+        errorMsg.value = ''
+      }, 3000)
+    }
   }
 </script>

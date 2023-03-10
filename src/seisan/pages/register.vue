@@ -79,13 +79,16 @@
       if (error) throw error
     } catch (error) {
       errorMsg.value = error.message
-      console.log(errorMsg.value)
+      alert(errorMsg.value)
       setTimeout(() => {
         errorMsg.value = ''
       }, 3000)
     }
   }
 
+  /** 現状は、watchEffectでナビゲーションガードを実装している
+   *  TODO: router側で統一的に処理するようにする
+   */
   watchEffect(() => {
     if (user.value) {
       return navigateTo('/')
