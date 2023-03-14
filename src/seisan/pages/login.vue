@@ -33,10 +33,7 @@
     middleware: 'authenticated'
   })
 
-  const storeAuth = useStoreAuth()
-
   const { auth } = useSupabaseAuthClient()
-  const router = useRouter()
 
   const email = ref('')
   const password = ref('')
@@ -44,15 +41,12 @@
 
   const login = async () => {
     try {
-      const { data, error } = await auth.signInWithPassword({
+      const { error } = await auth.signInWithPassword({
         email: email.value,
         password: password.value
       })
       if (error) throw error
-      console.log(`data.user:`)
-      console.log(data.user)
-      storeAuth.setUser(data.user)
-      router.push('/')
+      navigateTo('/')
     } catch (error) {
       errorMsg.value = error.message
       alert(errorMsg.value)
