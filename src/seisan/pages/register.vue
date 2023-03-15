@@ -13,7 +13,7 @@
             />
             <v-text-field
               v-model="username"
-              label="ユーザー名"
+              label="表示名"
             />
             <v-text-field
               v-model="password"

@@ -11,11 +11,9 @@ export default defineNuxtRouteMiddleware((to, _from) => {
     route.path == '/login' ? true : false
   ]
 
-  if (user.value != null) {
+  if (user && user.value) {
     rules.some(v => {
-      if (v == true) {
-        return router.push('/')
-      }
+      if (v == true) router.push('/')
     })
   }
 })

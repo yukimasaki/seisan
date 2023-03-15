@@ -37,6 +37,7 @@
   })
 
   const { auth } = useSupabaseAuthClient()
+  const user = useSupabaseUser()
   const router = useRouter()
 
   const email = ref('')
@@ -47,12 +48,21 @@
   const login = async () => {
     loading.value = true
     try {
-      const { error } = await auth.signInWithPassword({
+      const { data, error } = await auth.signInWithPassword({
         email: email.value,
         password: password.value
       })
+
       if (error) throw error
-      setTimeout(() => { router.push('/') }, 1000)
+
+      if (data) {
+        const timer = setInterval(() => {
+          if (user && user.value) {
+            clearInterval(timer)
+            router.push('/')
+          }
+        }, 100)
+      }
     } catch (error) {
       errorMsg.value = error.message
       alert(errorMsg.value)

@@ -16,4 +16,5 @@
 
 <script setup>
   const storeSettings = useStoreSettings()
+  const user = useSupabaseUser()
 </script>
