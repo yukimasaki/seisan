@@ -19,7 +19,10 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="login">
+          <v-btn
+            @click="login"
+            :loading="loading"
+          >
             ログイン
           </v-btn>
         </v-card-actions>
@@ -34,10 +37,12 @@
   })
 
   const { auth } = useSupabaseAuthClient()
+  const router = useRouter()
 
   const email = ref('')
   const password = ref('')
   const errorMsg = ref('')
+  const loading = ref(false)
 
   const login = async () => {
     try {
@@ -46,13 +51,20 @@
         password: password.value
       })
       if (error) throw error
-      navigateTo('/')
+      loading.value = true
+      let user = {
+        value: null
+      }
+      do {
+        user = await useSupabaseUser()
+        setInterval(async () => {}, 1000)
+      } while (user.value == null)
+      loading.value = false
+      router.push('/')
     } catch (error) {
       errorMsg.value = error.message
       alert(errorMsg.value)
-      setTimeout(() => {
-        errorMsg.value = ''
-      }, 3000)
+      setTimeout(() => { errorMsg.value = '' }, 3000)
     }
   }
 </script>
