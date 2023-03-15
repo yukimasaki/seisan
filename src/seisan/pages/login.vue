@@ -45,26 +45,20 @@
   const loading = ref(false)
 
   const login = async () => {
+    loading.value = true
     try {
       const { error } = await auth.signInWithPassword({
         email: email.value,
         password: password.value
       })
       if (error) throw error
-      loading.value = true
-      let user = {
-        value: null
-      }
-      do {
-        user = await useSupabaseUser()
-        setInterval(async () => {}, 1000)
-      } while (user.value == null)
-      loading.value = false
-      router.push('/')
+      setTimeout(() => { router.push('/') }, 1000)
     } catch (error) {
       errorMsg.value = error.message
       alert(errorMsg.value)
       setTimeout(() => { errorMsg.value = '' }, 3000)
+    } finally {
+      loading.value = false
     }
   }
 </script>
