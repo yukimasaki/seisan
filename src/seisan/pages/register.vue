@@ -28,7 +28,14 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="register">
+          <v-btn
+            variant="elevated"
+            elevation="1"
+            color="primary"
+            class="white-text"
+            @click="register"
+            :loading="loading"
+          >
             登録
           </v-btn>
         </v-card-actions>
@@ -43,7 +50,6 @@
   })
 
   const client = useSupabaseAuthClient()
-  const router = useRouter()
 
   const email = ref('')
   const username = ref('')

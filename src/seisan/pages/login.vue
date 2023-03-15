@@ -20,12 +20,19 @@
         </v-card-text>
         <v-card-actions>
           <v-btn
+            variant="elevated"
+            elevation="1"
+            color="primary"
+            class="white-text"
             @click="login"
             :loading="loading"
           >
             ログイン
           </v-btn>
         </v-card-actions>
+        <v-card-text>
+          <p><nuxt-link to="/register">ユーザー登録</nuxt-link></p>
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
