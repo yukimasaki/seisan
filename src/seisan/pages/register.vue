@@ -81,7 +81,7 @@
 
       if (error) throw error
 
-      if (data) return router.push('/after-register')
+      if (data) return navigateTo('/after-register')
 
       /** TODO: 「登録完了しました」ページを作成する */
     } catch (error) {

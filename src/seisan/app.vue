@@ -47,15 +47,13 @@
   const storeSettings = useStoreSettings()
   const user = reactive(useSupabaseUser())
   const client = useSupabaseAuthClient()
-  const router = useRouter()
 
   const loading = ref(false)
 
-  console.log(user)
   const logout = async () => {
     loading.value = true
     await client.auth.signOut()
     loading.value = false
-    router.push('/login')
+    await navigateTo('/login')
   }
 </script>

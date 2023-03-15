@@ -3,7 +3,6 @@
  */
 export default defineNuxtRouteMiddleware((to, _from) => {
   const user = useSupabaseUser()
-  const router = useRouter()
 
   /** ISSUE: ユーザー登録後のマジックリンクをクリックしてアクセスすると、
    *  user.value == nullと判定され/loginへリダイレクトされてしまう。
@@ -11,6 +10,6 @@ export default defineNuxtRouteMiddleware((to, _from) => {
    *  https://github.com/nuxt-modules/supabase/issues/28
    */
   if (user.value == null) {
-    router.push('/login')
+    return navigateTo('/login')
   }
 })

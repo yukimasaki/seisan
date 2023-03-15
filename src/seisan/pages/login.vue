@@ -38,7 +38,6 @@
 
   const client = useSupabaseAuthClient()
   const user = useSupabaseUser()
-  const router = useRouter()
 
   const email = ref('')
   const password = ref('')
@@ -59,7 +58,7 @@
         const timer = setInterval(() => {
           if (user && user.value) {
             clearInterval(timer)
-            router.push('/')
+            return navigateTo('/')
           }
         }, 100)
       }
