@@ -36,7 +36,7 @@
     middleware: 'authenticated'
   })
 
-  const { auth } = useSupabaseAuthClient()
+  const client = useSupabaseAuthClient()
   const user = useSupabaseUser()
   const router = useRouter()
 
@@ -46,9 +46,9 @@
   const loading = ref(false)
 
   const login = async () => {
-    loading.value = true
     try {
-      const { data, error } = await auth.signInWithPassword({
+      loading.value = true
+      const { data, error } = await client.auth.signInWithPassword({
         email: email.value,
         password: password.value
       })

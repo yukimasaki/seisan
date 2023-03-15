@@ -28,7 +28,7 @@
               <h3>{{ user.user_metadata.username }}</h3>
               <p class="text-caption mt-1">{{ user.email }}</p>
               <v-divider class="my-3"></v-divider>
-              <v-btn rounded text @click="logout">ログアウト</v-btn>
+              <v-btn rounded text @click="logout" :loading="loading">ログアウト</v-btn>
             </div>
           </v-card-text>
         </v-card>
@@ -46,9 +46,16 @@
 <script setup>
   const storeSettings = useStoreSettings()
   const user = reactive(useSupabaseUser())
+  const client = useSupabaseAuthClient()
+  const router = useRouter()
+
+  const loading = ref(false)
 
   console.log(user)
-  const logout = () => {
-    console.log(`ログアウト処理を実装する`)
+  const logout = async () => {
+    loading.value = true
+    await client.auth.signOut()
+    loading.value = false
+    router.push('/login')
   }
 </script>
