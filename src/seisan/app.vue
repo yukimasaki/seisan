@@ -27,7 +27,9 @@
               </v-avatar>
               <h3>{{ user.user_metadata.username }}</h3>
               <p class="text-caption mt-1">{{ user.email }}</p>
-              <v-divider class="my-3"></v-divider>
+              <v-divider class="my-3" />
+              <v-btn rounded text @click="profile">個人設定</v-btn>
+              <v-divider class="my-3" />
               <v-btn rounded text @click="logout" :loading="loading">ログアウト</v-btn>
             </div>
           </v-card-text>
@@ -55,5 +57,9 @@
     await client.auth.signOut()
     loading.value = false
     await navigateTo('/login')
+  }
+
+  const profile = async () => {
+    await navigateTo('/profile')
   }
 </script>
