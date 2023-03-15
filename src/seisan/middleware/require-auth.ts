@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware((to, _from) => {
    *  現状、解決策が見つけられない…。
    *  https://github.com/nuxt-modules/supabase/issues/28
    */
-  if (user.value == null) {
+  if (!user.value) {
     return navigateTo('/login')
   }
 })
