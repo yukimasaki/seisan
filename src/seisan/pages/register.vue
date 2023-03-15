@@ -42,8 +42,7 @@
     middleware: 'authenticated'
   })
 
-  const user = useSupabaseUser()
-  const { auth } = useSupabaseAuthClient()
+  const client = useSupabaseAuthClient()
 
   const email = ref('')
   const username = ref('')
@@ -64,7 +63,7 @@
     }
 
     try {
-      const { data, error } = await auth.signUp({
+      const { data, error } = await client.auth.signUp({
         email: email.value,
         password: password.value,
         options: {
@@ -80,6 +79,8 @@
       passwordRepeat.value = ''
 
       if (error) throw error
+
+      /** TODO: 「登録完了しました」ページを作成する */
     } catch (error) {
       errorMsg.value = error.message
       alert(errorMsg.value)
@@ -88,13 +89,4 @@
       }, 3000)
     }
   }
-
-  /** 現状は、watchEffectでナビゲーションガードを実装している
-   *  TODO: router側で統一的に処理するようにする
-   */
-  // watchEffect(() => {
-  //   if (user.value) {
-  //     return navigateTo('/')
-  //   }
-  // })
 </script>
