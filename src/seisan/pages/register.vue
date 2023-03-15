@@ -43,6 +43,7 @@
   })
 
   const client = useSupabaseAuthClient()
+  const router = useRouter()
 
   const email = ref('')
   const username = ref('')
@@ -79,6 +80,8 @@
       passwordRepeat.value = ''
 
       if (error) throw error
+
+      if (data) return router.push('/after-register')
 
       /** TODO: 「登録完了しました」ページを作成する */
     } catch (error) {
