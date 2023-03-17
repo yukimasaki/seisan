@@ -35,8 +35,6 @@
 </template>
 
 <script setup>
-import { client } from 'process';
-
   definePageMeta({
     middleware: 'require-auth'
   })
@@ -45,6 +43,7 @@ import { client } from 'process';
     console.log(`clicked`)
   }
 
+  /** DB接続テスト中 */
   onMounted(async () => {
     const user = useSupabaseUser()
     console.log(user)
