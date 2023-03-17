@@ -136,24 +136,24 @@
 </script>
 
 <style>
-.avatar-footer {
-  position: absolute;
-  display: table;
-  bottom: 0;
-  background-color: rgba(0,0,0,.4);
-  min-width: 100%;
-  min-height: 20%;
-  cursor: pointer;
-}
+  .avatar-footer {
+    position: absolute;
+    display: table;
+    bottom: 0;
+    background-color: rgba(0,0,0,.4);
+    min-width: 100%;
+    min-height: 20%;
+    cursor: pointer;
+  }
 
-.avatar-footer label {
-  display: table-cell;
-  vertical-align: middle;
-  color: white;
-  padding-bottom: 0.25rem;
-}
+  .avatar-footer label {
+    display: table-cell;
+    vertical-align: middle;
+    color: white;
+    padding-bottom: 0.25rem;
+  }
 
-input[type="file"] {
-  display: none;
-}
+  input[type="file"] {
+    display: none;
+  }
 </style>
