@@ -39,22 +39,21 @@
     middleware: 'require-auth'
   })
 
-  const changeAvatar = () => {
-    console.log(`clicked`)
-  }
 
   /** DB接続テスト中 */
-  onMounted(async () => {
+  const changeAvatar = async () => {
     const user = useSupabaseUser()
-    console.log(user)
-
     const dbClient = useSupabaseClient()
-    const { data: profiles } = await useAsyncData('profiles', async () => {
-      const { data } = await dbClient.from('profiles').select('username').eq('id', user.id).single()
-      return data
-    })
-    console.log(profiles)
-  })
+
+    const { data } = await dbClient
+      .from('profiles')
+      .select('avatar_url')
+      .eq('id', user.value.id)
+      .single()
+
+    console.log(data)
+  }
+
 </script>
 
 <style>
