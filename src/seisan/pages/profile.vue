@@ -12,14 +12,12 @@
                 size="180"
                 style="position: relative;"
                 >
-                <v-img
-                  src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=300:*"
-                  cover
-                  style="position: absolute;"
-                  >
-                </v-img>
+                <v-icon v-if="!avatarImage.url" icon="mdi-account-circle" size="180" style="position: absolute;"/>
+                <v-img v-else :src="avatarImage.url" cover style="position: absolute;" />
                 <div class="avatar-footer" @click="changeAvatar">
-                  <p>変更</p>
+                  <label>
+                    <input type="file" @change="onChangeAvatarImage">変更
+                  </label>
                 </div>
               </v-avatar>
             </div>
@@ -29,27 +27,110 @@
             />
           </v-form>
         </v-card-text>
+        <v-card-actions>
+          <v-btn
+            variant="elevated"
+            elevation="1"
+            color="primary"
+            class="white-text"
+            @click="saveProfile"
+            :loading="loading"
+          >
+            保存
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <script setup>
+  import { uuid } from '@supabase/gotrue-js/dist/module/lib/helpers';
+
   definePageMeta({
     middleware: 'require-auth'
   })
 
-  const changeAvatar = async () => {
-    const user = useSupabaseUser()
-    const dbClient = useSupabaseClient()
+  const user = useSupabaseUser()
+  const dbClient = useSupabaseClient()
 
+  const loading = ref(false)
+
+  const fetchAvatarUrl = async () => {
     const { data } = await dbClient
-      .from('profiles')
-      .select('avatar_url')
-      .eq('id', user.value.id)
-      .single()
+    .from('profiles')
+    .select('avatar_url')
+    .eq('id', user.value.id)
+    .single()
+    return data.avatar_url
+  }
 
-    console.log(data)
+  /** アバター画像ファイルの入れ物 */
+  const avatarImage = reactive({
+    url: null,
+    file: null
+  })
+
+  onMounted(async () => {
+    avatarImage.url = await fetchAvatarUrl()
+  })
+
+  const onChangeAvatarImage = (e) => {
+    if (!e.target.files || e.target.files.length == 0) {
+      /** 画像が選択されていないのでreturn */
+      return
+    }
+
+    /** 選択された画像を取得 */
+    avatarImage.file = e.target.files[0]
+    avatarImage.url = URL.createObjectURL(avatarImage.file)
+  }
+
+  const upload = async () => {
+    try {
+      const fileName = uuid().substring(24,36)
+
+      const { error } = await dbClient
+        .storage
+        .from('avatars')
+        .upload(fileName, avatarImage.file, {
+          cacheControl: '3600',
+          upsert: false
+        })
+      if (error) throw error
+      /** 公開URLを取得 */
+      const { data } = await dbClient
+        .storage
+        .from('avatars')
+        .getPublicUrl(fileName)
+      return data.publicUrl
+    } catch (error) {
+      /** TODO: v-snackbarでメッセージを表示させる */
+      console.log(error)
+    }
+  }
+
+  const update = async (publicUrl) => {
+    try {
+      const { error } = await dbClient
+      .from('profiles')
+      .update({ avatar_url: publicUrl})
+      .eq('id', user.value.id)
+    } catch (error) {
+      /** TODO: v-snackbarでメッセージを表示させる */
+      console.log(error)
+    }
+  }
+
+  const saveAvatarImage = async () => {
+    const publicUrl = await upload()
+    await update(publicUrl)
+  }
+
+  const saveProfile = async () => {
+    loading.value = true
+    await saveAvatarImage()
+    loading.value = false
   }
 
 </script>
@@ -65,10 +146,14 @@
   cursor: pointer;
 }
 
-.avatar-footer p {
+.avatar-footer label {
   display: table-cell;
   vertical-align: middle;
   color: white;
   padding-bottom: 0.25rem;
+}
+
+input[type="file"] {
+  display: none;
 }
 </style>
