@@ -49,7 +49,7 @@
     middleware: 'authenticated'
   })
 
-  const client = useSupabaseAuthClient()
+  const authClient = useSupabaseAuthClient()
 
   const email = ref('')
   const username = ref('')
@@ -70,7 +70,7 @@
     }
 
     try {
-      const { data, error } = await client.auth.signUp({
+      const { data, error } = await authClient.auth.signUp({
         email: email.value,
         password: password.value,
         options: {

@@ -48,13 +48,13 @@
 <script setup>
   const storeSettings = useStoreSettings()
   const user = reactive(useSupabaseUser())
-  const client = useSupabaseAuthClient()
+  const authClient = useSupabaseAuthClient()
 
   const loading = ref(false)
 
   const logout = async () => {
     loading.value = true
-    await client.auth.signOut()
+    await authClient.auth.signOut()
     loading.value = false
     await navigateTo('/login')
   }

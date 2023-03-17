@@ -43,7 +43,7 @@
     middleware: 'authenticated'
   })
 
-  const client = useSupabaseAuthClient()
+  const authClient = useSupabaseAuthClient()
   const user = useSupabaseUser()
 
   const email = ref('')
@@ -54,7 +54,7 @@
   const login = async () => {
     try {
       loading.value = true
-      const { data, error } = await client.auth.signInWithPassword({
+      const { data, error } = await authClient.auth.signInWithPassword({
         email: email.value,
         password: password.value
       })
