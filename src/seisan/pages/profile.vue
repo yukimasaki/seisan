@@ -13,8 +13,8 @@
                 style="position: relative;"
                 class="mb-3"
               >
-                <v-icon v-if="!avatarImage.url" icon="mdi-account-circle" size="180" style="position: absolute;"/>
-                <v-img v-else :src="avatarImage.url" cover style="position: absolute;" />
+                <v-icon v-if="!avatarImage.displayUrl" icon="mdi-account-circle" size="180" style="position: absolute;"/>
+                <v-img v-else :src="avatarImage.displayUrl" cover style="position: absolute;" />
                 <div class="avatar-footer" @click="changeAvatar">
                   <label>
                     <input type="file" @change="onChangeAvatarImage">変更
@@ -69,12 +69,13 @@
 
   /** アバター画像ファイルの入れ物 */
   const avatarImage = reactive({
-    url: null,
+    displayUrl: null,
+    copiedUrl: null,
     file: null
   })
 
   onMounted(async () => {
-    avatarImage.url = await fetchAvatarUrl()
+    avatarImage.displayUrl = await fetchAvatarUrl()
   })
 
   const onChangeAvatarImage = (e) => {
@@ -85,7 +86,13 @@
 
     /** 選択された画像を取得 */
     avatarImage.file = e.target.files[0]
-    avatarImage.url = URL.createObjectURL(avatarImage.file)
+    avatarImage.copiedUrl = avatarImage.displayUrl
+    avatarImage.displayUrl = URL.createObjectURL(avatarImage.file)
+  }
+
+  /** TODO: 選択画像をクリアする際の処理を実装する */
+  const clearAvatarImage = () => {
+
   }
 
   const upload = async () => {
