@@ -13,18 +13,14 @@
             text
             v-bind="props"
           >
-            <v-avatar>
-              <v-icon icon="mdi-account-circle" size="x-large" />
-            </v-avatar>
-            {{ user.user_metadata.username }}
+            <Avatar :avatarImage="avatarImage" class="mr-2" />
+            <p>{{ user.user_metadata.username }}</p>
           </v-btn>
         </template>
         <v-card>
           <v-card-text>
             <div class="mx-auto text-center">
-              <v-avatar>
-                <v-icon icon="mdi-account-circle" size="x-large" />
-              </v-avatar>
+              <Avatar :avatarImage="avatarImage" />
               <h3>{{ user.user_metadata.username }}</h3>
               <p class="text-caption mt-1">{{ user.email }}</p>
               <v-divider class="my-3" />
@@ -49,6 +45,7 @@
   const storeSettings = useStoreSettings()
   const user = reactive(useSupabaseUser())
   const authClient = useSupabaseAuthClient()
+  const dbClient = useSupabaseClient()
 
   const loading = ref(false)
 
@@ -62,4 +59,23 @@
   const profile = async () => {
     await navigateTo('/profile')
   }
+
+  const fetchAvatarUrl = async () => {
+    const { data } = await dbClient
+    .from('profiles')
+    .select('avatar_url')
+    .eq('id', user.value.id)
+    .single()
+    return data.avatar_url
+  }
+
+  /** アバター画像ファイルの入れ物 */
+  const avatarImage = reactive({
+    url: null,
+    file: null
+  })
+
+  onMounted(async () => {
+    avatarImage.url = await fetchAvatarUrl()
+  })
 </script>
