@@ -2,16 +2,17 @@
   <v-row justify="center">
     <v-col cols="12" md="6" xs="12">
       <v-card>
-        <v-card-title>
-          プロフィール
-        </v-card-title>
-        <v-card-text>
-          <v-form>
-            <div class="mt-auto mb-3 text-center">
+        <div class="mt-auto text-center">
+          <v-card-title>
+            <h3>個人設定</h3>
+          </v-card-title>
+          <v-card-text>
+            <v-form>
               <v-avatar
                 size="180"
                 style="position: relative;"
-                >
+                class="mb-3"
+              >
                 <v-icon v-if="!avatarImage.url" icon="mdi-account-circle" size="180" style="position: absolute;"/>
                 <v-img v-else :src="avatarImage.url" cover style="position: absolute;" />
                 <div class="avatar-footer" @click="changeAvatar">
@@ -20,24 +21,25 @@
                   </label>
                 </div>
               </v-avatar>
-            </div>
-
-            <v-text-field
-              label="表示名"
-            />
-          </v-form>
-        </v-card-text>
+              <v-text-field
+                label="表示名"
+              />
+            </v-form>
+          </v-card-text>
+        </div>
         <v-card-actions>
-          <v-btn
-            variant="elevated"
-            elevation="1"
-            color="primary"
-            class="white-text"
-            @click="saveProfile"
-            :loading="loading"
-          >
-            保存
-          </v-btn>
+          <v-row justify="center">
+            <v-btn
+              variant="elevated"
+              elevation="1"
+              color="primary"
+              class="white-text"
+              @click="saveProfile"
+              :loading="loading"
+            >
+              保存
+            </v-btn>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-col>
