@@ -39,8 +39,6 @@
     middleware: 'require-auth'
   })
 
-
-  /** DB接続テスト中 */
   const changeAvatar = async () => {
     const user = useSupabaseUser()
     const dbClient = useSupabaseClient()
