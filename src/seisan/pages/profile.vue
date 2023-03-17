@@ -22,7 +22,8 @@
                 </div>
               </v-avatar>
               <v-text-field
-                label="表示名"
+              v-model="username"
+              label="表示名"
               />
             </v-form>
           </v-card-text>
@@ -34,8 +35,19 @@
               elevation="1"
               color="primary"
               class="white-text"
+              @click="clearAvatarImage"
+              :loading="loading"
+            >
+              キャンセル
+            </v-btn>
+            <v-btn
+              variant="elevated"
+              elevation="1"
+              color="primary"
+              class="white-text"
               @click="saveProfile"
               :loading="loading"
+              :disabled="SaveButtonDisabled"
             >
               保存
             </v-btn>
@@ -56,6 +68,7 @@
   const user = useSupabaseUser()
   const dbClient = useSupabaseClient()
 
+  const username = ref('')
   const loading = ref(false)
 
   const fetchAvatarUrl = async () => {
@@ -76,6 +89,12 @@
 
   onMounted(async () => {
     avatarImage.displayUrl = await fetchAvatarUrl()
+
+    /** profilesテーブルに保存する処理は正常に動作しているが、
+     *  取得がうまくできてない（どこかから変更前のデータを取得している？）
+     */
+    console.log(user.value)
+    username.value = user.value.user_metadata.username
   })
 
   const onChangeAvatarImage = (e) => {
@@ -90,12 +109,14 @@
     avatarImage.displayUrl = URL.createObjectURL(avatarImage.file)
   }
 
-  /** TODO: 選択画像をクリアする際の処理を実装する */
   const clearAvatarImage = () => {
-
+    if (avatarImage.copiedUrl) {
+      avatarImage.displayUrl = avatarImage.copiedUrl
+      avatarImage.copiedUrl = null
+    }
   }
 
-  const upload = async () => {
+  const uploadAvatarImage = async () => {
     try {
       const fileName = uuid().substring(24,36)
 
@@ -119,7 +140,7 @@
     }
   }
 
-  const update = async (publicUrl) => {
+  const updateAvatarImage = async (publicUrl) => {
     try {
       const { error } = await dbClient
       .from('profiles')
@@ -131,16 +152,40 @@
     }
   }
 
-  const saveAvatarImage = async () => {
-    const publicUrl = await upload()
-    await update(publicUrl)
+  const updateUserName = async (username) => {
+    try {
+      const { error } = await dbClient
+      .from('profiles')
+      .update({ username: username})
+      .eq('id', user.value.id)
+    } catch (error) {
+      /** TODO: v-snackbarでメッセージを表示させる */
+      console.log(error)
+    }
   }
 
   const saveProfile = async () => {
     loading.value = true
-    await saveAvatarImage()
+
+    if (avatarImage.copiedUrl) {
+      const publicUrl = await uploadAvatarImage()
+      await updateAvatarImage(publicUrl)
+    }
+
+    if (username.value != user.value.user_metadata.username) {
+      await updateUserName(username.value)
+    }
+
     loading.value = false
   }
+
+  const SaveButtonDisabled = computed(() => {
+    const rules = [
+      avatarImage.copiedUrl == null ? true : false,
+      username.value == user.value.user_metadata.username ? true : false
+    ]
+    return rules.every(v => v == true)
+  })
 
 </script>
 
