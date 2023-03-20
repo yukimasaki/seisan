@@ -5,7 +5,4 @@
 </template>
 
 <script setup>
-  definePageMeta({
-    middleware: 'require-auth'
-  })
 </script>
