@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "firebase": "^9.18.0",
     "nuxt": "^3.2.3",
     "prisma": "^4.11.0"
   },
