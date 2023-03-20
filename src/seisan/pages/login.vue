@@ -39,42 +39,4 @@
 </template>
 
 <script setup>
-  definePageMeta({
-    middleware: 'authenticated'
-  })
-
-  const authClient = useSupabaseAuthClient()
-  const user = useSupabaseUser()
-
-  const email = ref('')
-  const password = ref('')
-  const errorMsg = ref('')
-  const loading = ref(false)
-
-  const login = async () => {
-    try {
-      loading.value = true
-      const { data, error } = await authClient.auth.signInWithPassword({
-        email: email.value,
-        password: password.value
-      })
-
-      if (error) throw error
-
-      if (data) {
-        const timer = setInterval(() => {
-          if (user && user.value) {
-            clearInterval(timer)
-            return navigateTo('/')
-          }
-        }, 100)
-      }
-    } catch (error) {
-      errorMsg.value = error.message
-      alert(errorMsg.value)
-      setTimeout(() => { errorMsg.value = '' }, 3000)
-    } finally {
-      loading.value = false
-    }
-  }
 </script>

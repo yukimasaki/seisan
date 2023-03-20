@@ -42,40 +42,4 @@
 </template>
 
 <script setup>
-  const storeSettings = useStoreSettings()
-  const user = reactive(useSupabaseUser())
-  const authClient = useSupabaseAuthClient()
-  const dbClient = useSupabaseClient()
-
-  const loading = ref(false)
-
-  const logout = async () => {
-    loading.value = true
-    await authClient.auth.signOut()
-    loading.value = false
-    await navigateTo('/login')
-  }
-
-  const profile = async () => {
-    await navigateTo('/profile')
-  }
-
-  const fetchAvatarUrl = async () => {
-    const { data } = await dbClient
-    .from('profiles')
-    .select('avatar_url')
-    .eq('id', user.value.id)
-    .single()
-    return data.avatar_url
-  }
-
-  /** アバター画像ファイルの入れ物 */
-  const avatarImage = reactive({
-    url: null,
-    file: null
-  })
-
-  onMounted(async () => {
-    avatarImage.url = await fetchAvatarUrl()
-  })
 </script>
