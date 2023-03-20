@@ -36,7 +36,7 @@
             @click="register"
             :loading="loading"
           >
-            登録
+            Googleで登録
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -45,4 +45,8 @@
 </template>
 
 <script setup>
+  const register = () => {
+    const { googleSignUp } = useAuth()
+    googleSignUp()
+  }
 </script>
