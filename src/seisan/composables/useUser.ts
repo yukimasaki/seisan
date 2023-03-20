@@ -1,4 +1,5 @@
 const useUser = () => {
+  /** CREATE */
   const createUser = async (values) => {
     const data = await $fetch('/api/user', {
       method: 'post',
@@ -7,8 +8,16 @@ const useUser = () => {
     await refreshNuxtData() // データのリフレッシュ
     return data // awaitしてるので何か返してあげる
   }
+
+  /** READ */
+  const readUser = async () => {
+    const data = await $fetch('/api/user')
+    await refreshNuxtData()
+    return data
+  }
+
   return {
-    createUser
+    createUser, readUser
   }
 }
 export default useUser

@@ -5,11 +5,15 @@ export default defineEventHandler(async (e) => {
   const method = e.req.method
 
   if (method === 'POST') {
-    const uid = '123456789'
-    const display_name = 'yuki'
-    const temp = await prisma.user.create({
-      data: { uid, display_name }
+    const body = await readBody(e)
+    const user = await prisma.user.create({
+      data: body
     })
-    return temp
+    return user
+  }
+
+  if (method === 'GET') {
+    const user = await prisma.user.findMany()
+    return user
   }
 })
