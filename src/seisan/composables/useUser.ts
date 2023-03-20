@@ -26,8 +26,18 @@ const useUser = () => {
     return data
   }
 
+  /** DELETE */
+  const deleteUser = async (values) => {
+    const data = await $fetch('/api/user', {
+      method: 'delete',
+      body: values,
+    })
+    await refreshNuxtData()
+    return data
+  }
+
   return {
-    createUser, readUser, updateUser
+    createUser, readUser, updateUser, deleteUser
   }
 }
 export default useUser
