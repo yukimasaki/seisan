@@ -16,8 +16,18 @@ const useUser = () => {
     return data
   }
 
+  /** UPDATE */
+  const updateUser = async (values) => {
+    const data = await $fetch('/api/user', {
+      method: 'put',
+      body: values,
+    })
+    await refreshNuxtData()
+    return data
+  }
+
   return {
-    createUser, readUser
+    createUser, readUser, updateUser
   }
 }
 export default useUser
