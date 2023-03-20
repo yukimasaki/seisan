@@ -5,7 +5,7 @@
         <v-card-title>
           ユーザー登録
         </v-card-title>
-        <v-card-text>
+        <!-- <v-card-text>
           <v-form>
             <v-text-field
               v-model="email"
@@ -26,7 +26,7 @@
               type="password"
             />
           </v-form>
-        </v-card-text>
+        </v-card-text> -->
         <v-card-actions>
           <v-btn
             variant="elevated"
@@ -45,8 +45,12 @@
 </template>
 
 <script setup>
+  const loading = ref(false)
+
   const register = () => {
+    loading.value = true
     const { googleSignUp } = useAuth()
     googleSignUp()
+    loading.value = false
   }
 </script>
