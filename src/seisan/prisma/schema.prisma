@@ -17,8 +17,10 @@ model Profile {
   display_name    String      @db.VarChar(255)
   avatar_url      String      @db.Text
   payments        Payment[]
-  debtors         Debt[]      @relation(name: "debtors")
-  creditors       Debt[]      @relation(name: "creditors")
+  debtors         Debt[]      @relation(name: "debtor")
+  creditors       Debt[]      @relation(name: "creditor")
+  authours        Comment[]
+  payers          Sharing[]
 }
 
 model Payment {
@@ -28,7 +30,7 @@ model Payment {
   creator                 Profile     @relation(fields: [creator_id], references: [id])
   creator_id              Int
   title                   String      @db.VarChar(100)
-  expence                 Int         @db.Int
+  total_expence           Int         @db.Int
   sharing_method          String      @db.VarChar(2)
   status                  String      @db.VarChar(2)
   billing_date            DateTime    @db.Timestamp(0)
@@ -44,22 +46,29 @@ model Sharing {
   id                      Int         @id @default(autoincrement())
   created_at              DateTime    @default(now()) @db.Timestamp(0)
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
-  payer                   Payment     @relation(fields: [sharing_payment_id], references: [id])
+  sharing_payment         Payment     @relation(fields: [sharing_payment_id], references: [id])
   sharing_payment_id      Int
+  payer                   Profile     @relation(fields: [payer_id], references: [id])
+  payer_id                Int
+  ratio                   Float       @db.Float
+  copayment               Int         @db.Int
 
   @@index([sharing_payment_id])
+  @@index([payer_id])
 }
 
 model Debt {
   id                      Int         @id @default(autoincrement())
   created_at              DateTime    @default(now()) @db.Timestamp(0)
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
-  debtor                  Profile     @relation(name: "debtors", fields: [debtor_id], references: [id])
+  debtor                  Profile     @relation(name: "debtor", fields: [debtor_id], references: [id])
   debtor_id               Int
-  creditor                Profile     @relation(name: "creditors", fields: [creditor_id], references: [id])
+  creditor                Profile     @relation(name: "creditor", fields: [creditor_id], references: [id])
   creditor_id             Int
   debt_payment            Payment     @relation(fields: [debt_payment_id], references: [id])
   debt_payment_id         Int
+  amount                  Int         @db.Int
+  status                  String      @db.VarChar(2)
 
   @@index([debtor_id])
   @@index([creditor_id])
@@ -72,6 +81,8 @@ model Image {
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
   image_payment           Payment     @relation(fields: [image_payment_id], references: [id])
   image_payment_id        Int
+  filename                String      @db.VarChar(32)
+  url                     String      @db.Text
 
   @@index([image_payment_id])
 }
@@ -82,6 +93,10 @@ model Comment {
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
   comment_payment         Payment     @relation(fields: [comment_payment_id], references: [id])
   comment_payment_id      Int
+  author                  Profile     @relation(fields: [author_id], references: [id])
+  author_id               Int
+  comment                 String      @db.Text
 
   @@index([comment_payment_id])
+  @@index([author_id])
 }
