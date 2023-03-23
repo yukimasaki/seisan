@@ -5,28 +5,6 @@
         <v-card-title>
           ユーザー登録
         </v-card-title>
-        <!-- <v-card-text>
-          <v-form>
-            <v-text-field
-              v-model="email"
-              label="メールアドレス"
-            />
-            <v-text-field
-              v-model="username"
-              label="表示名"
-            />
-            <v-text-field
-              v-model="password"
-              label="パスワード"
-              type="password"
-            />
-            <v-text-field
-              v-model="passwordRepeat"
-              label="パスワード(確認)"
-              type="password"
-            />
-          </v-form>
-        </v-card-text> -->
         <v-card-actions>
           <v-btn
             variant="elevated"
