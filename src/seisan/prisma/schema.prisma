@@ -19,7 +19,7 @@ model Profile {
   payments        Payment[]
   debtors         Debt[]      @relation(name: "debtor")
   creditors       Debt[]      @relation(name: "creditor")
-  authours        Comment[]
+  authors        Comment[]
   payers          Sharing[]
 }
 
