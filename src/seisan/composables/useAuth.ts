@@ -1,8 +1,4 @@
 import {
-  Auth,
-  User,
-  UserCredential,
-  onAuthStateChanged,
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
@@ -10,18 +6,22 @@ import {
 import {faker} from '@faker-js/faker'
 
 const useAuth = () => {
+  const { createProfile, readProfile } = useProfile()
+
+  const getUser = async (uid) => {
+  }
+
   const googleSignUp = async () => {
     try {
       const provider = new GoogleAuthProvider()
       const auth = getAuth()
       const googleUser = await signInWithPopup(auth, provider)
-      const user = null /** 新規登録を想定してnullで宣言 */
+      const user = googleUser.user.uid
       if (user) {
         console.log(`すでにユーザー登録されています。`)
         navigateTo('/login')
       } else {
         console.log(googleUser)
-        const { createProfile } = useProfile()
         const values = {
           uid: faker.datatype.uuid().substring(0, 16),
           display_name: 'Test Urofile',
