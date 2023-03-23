@@ -6,31 +6,31 @@ export default defineEventHandler(async (e) => {
 
   if (method === 'POST') {
     const body = await readBody(e)
-    const user = await prisma.profile.create({
+    const profile = await prisma.profile.create({
       data: body
     })
-    return user
+    return profile
   }
 
   if (method === 'GET') {
-    const user = await prisma.profile.findMany()
-    return user
+    const profile = await prisma.profile.findMany()
+    return profile
   }
 
   if (method === 'PUT') {
     const body = await readBody(e)
-    const user = await prisma.profile.update({
+    const profile = await prisma.profile.update({
       where: { id: body.targetId },
       data: body.data
     })
-    return user
+    return profile
   }
 
   if (method === 'DELETE') {
     const body = await readBody(e)
-    const user = await prisma.profile.delete({
+    const profile = await prisma.profile.delete({
       where: { id: body.targetId }
     })
-    return user
+    return profile
   }
 })

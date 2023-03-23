@@ -10,24 +10,24 @@
 <script setup>
   import {faker} from '@faker-js/faker'
 
-  const { createUser, readUser, updateUser, deleteUser } = useUser()
+  const { createProfile, readProfile, updateProfile, deleteProfile } = useProfile()
 
   const onClickCreate = async () => {
-    await createUser({
+    await createProfile({
       uid: faker.datatype.uuid().substring(0, 16),
-      display_name: 'Test User',
+      display_name: 'Test Urofile',
       email: 'test@example.com',
       avatar_url: 'https://hogehoge.example.com/test.png'
     })
   }
 
   const onClickRead  = async () => {
-    const data = await readUser()
+    const data = await readProfile()
     console.log(data)
   }
 
   const onClickUpdate = async () => {
-    await updateUser({
+    await updateProfile({
       targetId: 3,
       data: {
         uid: faker.datatype.uuid().substring(0, 16),
@@ -37,7 +37,7 @@
   }
 
   const onClickDelete = async () => {
-    await deleteUser({
+    await deleteProfile({
       targetId: 3
     })
   }

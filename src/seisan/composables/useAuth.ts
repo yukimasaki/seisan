@@ -21,12 +21,14 @@ const useAuth = () => {
         navigateTo('/login')
       } else {
         console.log(googleUser)
-        const { createUser } = useUser()
+        const { createProfile } = useProfile()
         const values = {
           uid: faker.datatype.uuid().substring(0, 16),
-          display_name: 'Test User',
+          display_name: 'Test Urofile',
+          email: 'test@example.com',
+          avatar_url: 'https://hogehoge.example.com/test.png'
         }
-        await createUser({ ...values })
+        await createProfile({ ...values })
         alert(`ユーザー登録が完了しました。`)
       }
     } catch (error) {

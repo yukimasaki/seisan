@@ -1,7 +1,7 @@
-const useUser = () => {
+const useProfile = () => {
   /** CREATE */
-  const createUser = async (values) => {
-    const data = await $fetch('/api/user', {
+  const createProfile = async (values) => {
+    const data = await $fetch('/api/profile', {
       method: 'post',
       body: values,
     })
@@ -10,15 +10,15 @@ const useUser = () => {
   }
 
   /** READ */
-  const readUser = async () => {
-    const data = await $fetch('/api/user')
+  const readProfile = async () => {
+    const data = await $fetch('/api/profile')
     await refreshNuxtData()
     return data
   }
 
   /** UPDATE */
-  const updateUser = async (values) => {
-    const data = await $fetch('/api/user', {
+  const updateProfile = async (values) => {
+    const data = await $fetch('/api/profile', {
       method: 'put',
       body: values,
     })
@@ -27,8 +27,8 @@ const useUser = () => {
   }
 
   /** DELETE */
-  const deleteUser = async (values) => {
-    const data = await $fetch('/api/user', {
+  const deleteProfile = async (values) => {
+    const data = await $fetch('/api/profile', {
       method: 'delete',
       body: values,
     })
@@ -37,7 +37,7 @@ const useUser = () => {
   }
 
   return {
-    createUser, readUser, updateUser, deleteUser
+    createProfile, readProfile, updateProfile, deleteProfile
   }
 }
-export default useUser
+export default useProfile
