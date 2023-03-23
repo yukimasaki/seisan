@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Profile {
   id              Int         @id @default(autoincrement())
   uid             String      @unique @db.VarChar(28)
   email           String      @db.VarChar(255)
