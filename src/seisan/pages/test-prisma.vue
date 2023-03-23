@@ -1,9 +1,16 @@
 <template>
   <div>
-    <v-btn @click="onClickCreate">create</v-btn>
-    <v-btn @click="onClickRead">read</v-btn>
-    <v-btn @click="onClickUpdate">update</v-btn>
-    <v-btn @click="onClickDelete">delete</v-btn>
+    <v-card>
+      <v-card-text>
+        <h3>CRUD</h3>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn @click="onClickCreate">create</v-btn>
+        <v-btn @click="onClickRead">read</v-btn>
+        <v-btn @click="onClickUpdate">update</v-btn>
+        <v-btn @click="onClickDelete">delete</v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
