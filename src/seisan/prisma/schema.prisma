@@ -1,21 +1,87 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider        = "mysql"
+  url             = env("DATABASE_URL")
+  relationMode    = "prisma"
 }
 
 model Profile {
   id              Int         @id @default(autoincrement())
+  created_at      DateTime    @default(now()) @db.Timestamp(0)
+  updated_at      DateTime    @default(now()) @updatedAt @db.Timestamp(0)
   uid             String      @unique @db.VarChar(28)
   email           String      @db.VarChar(255)
   display_name    String      @db.VarChar(255)
   avatar_url      String      @db.Text
-  created_at      DateTime    @default(now()) @db.Timestamp(0)
-  updated_at      DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  payments        Payment[]
+  debtors         Debt[]      @relation(name: "debtors")
+  creditors       Debt[]      @relation(name: "creditors")
+}
+
+model Payment {
+  id                      Int         @id @default(autoincrement())
+  created_at              DateTime    @default(now()) @db.Timestamp(0)
+  updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  title                   String      @db.VarChar(100)
+  expence                 Int         @db.Int
+  sharing_method          String      @db.VarChar(2)
+  status                  String      @db.VarChar(2)
+  billing_date            DateTime    @db.Timestamp(0)
+  creator                 Profile     @relation(fields: [payment_profile_id], references: [id])
+  payment_profile_id      Int
+  sharings                Sharing[]
+  debts                   Debt[]
+  image                   Image[]
+  comments                Comment[]
+
+  @@index([payment_profile_id])
+}
+
+model Sharing {
+id                        Int         @id @default(autoincrement())
+  created_at              DateTime    @default(now()) @db.Timestamp(0)
+  updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  payer                   Payment     @relation(fields: [sharing_payment_id], references: [id])
+  sharing_payment_id      Int
+
+  @@index([sharing_payment_id])
+}
+
+model Debt {
+  id                      Int         @id @default(autoincrement())
+  created_at              DateTime    @default(now()) @db.Timestamp(0)
+  updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  debtors                 Profile     @relation(name: "debtors", fields: [debtors_id], references: [id])
+  debtors_id              Int
+  creditors               Profile     @relation(name: "creditors", fields: [creditors_id], references: [id])
+  creditors_id            Int
+  debt_payments           Payment     @relation(fields: [debt_payment_id], references: [id])
+  debt_payment_id         Int
+
+  @@index([debtors_id])
+  @@index([creditors_id])
+  @@index([debt_payment_id])
+}
+
+model Image {
+  id                      Int         @id @default(autoincrement())
+  created_at              DateTime    @default(now()) @db.Timestamp(0)
+  updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  image_payments          Payment     @relation(fields: [image_payment_id], references: [id])
+  image_payment_id        Int
+
+  @@index([image_payment_id])
+}
+
+model Comment {
+  id                      Int         @id @default(autoincrement())
+  created_at              DateTime    @default(now()) @db.Timestamp(0)
+  updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  comment_payments        Payment     @relation(fields: [comment_payment_id], references: [id])
+  comment_payment_id      Int
+
+  @@index([comment_payment_id])
 }
