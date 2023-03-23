@@ -6,7 +6,6 @@ import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
-  createUserWithEmailAndPassword,
 } from 'firebase/auth'
 import {faker} from '@faker-js/faker'
 
