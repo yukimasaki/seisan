@@ -25,13 +25,13 @@ model Payment {
   id                      Int         @id @default(autoincrement())
   created_at              DateTime    @default(now()) @db.Timestamp(0)
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
+  creator                 Profile     @relation(fields: [creator_id], references: [id])
+  creator_id              Int
   title                   String      @db.VarChar(100)
   expence                 Int         @db.Int
   sharing_method          String      @db.VarChar(2)
   status                  String      @db.VarChar(2)
   billing_date            DateTime    @db.Timestamp(0)
-  creator                 Profile     @relation(fields: [creator_id], references: [id])
-  creator_id              Int
   sharings                Sharing[]
   debts                   Debt[]
   image                   Image[]
@@ -41,7 +41,7 @@ model Payment {
 }
 
 model Sharing {
-id                        Int         @id @default(autoincrement())
+  id                      Int         @id @default(autoincrement())
   created_at              DateTime    @default(now()) @db.Timestamp(0)
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
   payer                   Payment     @relation(fields: [sharing_payment_id], references: [id])
