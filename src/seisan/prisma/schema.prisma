@@ -30,14 +30,14 @@ model Payment {
   sharing_method          String      @db.VarChar(2)
   status                  String      @db.VarChar(2)
   billing_date            DateTime    @db.Timestamp(0)
-  creator                 Profile     @relation(fields: [payment_profile_id], references: [id])
-  payment_profile_id      Int
+  creator                 Profile     @relation(fields: [creator_id], references: [id])
+  creator_id              Int
   sharings                Sharing[]
   debts                   Debt[]
   image                   Image[]
   comments                Comment[]
 
-  @@index([payment_profile_id])
+  @@index([creator_id])
 }
 
 model Sharing {
@@ -54,15 +54,15 @@ model Debt {
   id                      Int         @id @default(autoincrement())
   created_at              DateTime    @default(now()) @db.Timestamp(0)
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
-  debtor                  Profile     @relation(name: "debtors", fields: [debtors_id], references: [id])
-  debtors_id              Int
-  creditor                Profile     @relation(name: "creditors", fields: [creditors_id], references: [id])
-  creditors_id            Int
+  debtor                  Profile     @relation(name: "debtors", fields: [debtor_id], references: [id])
+  debtor_id               Int
+  creditor                Profile     @relation(name: "creditors", fields: [creditor_id], references: [id])
+  creditor_id             Int
   debt_payment            Payment     @relation(fields: [debt_payment_id], references: [id])
   debt_payment_id         Int
 
-  @@index([debtors_id])
-  @@index([creditors_id])
+  @@index([debtor_id])
+  @@index([creditor_id])
   @@index([debt_payment_id])
 }
 
