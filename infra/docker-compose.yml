@@ -6,6 +6,7 @@ services:
     ports:
       - "3000:3000"
       - "5555:5555"
+      - "24678:24678"
     volumes:
       - "../src:/var/www/html"
       - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt"

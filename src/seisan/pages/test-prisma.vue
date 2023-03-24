@@ -23,7 +23,7 @@
   const onClickCreate = async () => {
     await createProfile({
       uid: faker.datatype.uuid().substring(0, 16),
-      display_name: 'Test Urofile',
+      display_name: 'Test Profile',
       email: 'test@example.com',
       avatar_url: 'https://hogehoge.example.com/test.png'
     })
