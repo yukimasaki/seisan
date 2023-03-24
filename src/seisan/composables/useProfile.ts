@@ -1,7 +1,7 @@
 const useProfile = () => {
   /** CREATE */
   const createProfile = async (values) => {
-    const data = await $fetch('/api/profile', {
+    const data = await $fetch('/api/profiles', {
       method: 'post',
       body: values,
     })
@@ -9,16 +9,23 @@ const useProfile = () => {
     return data // awaitしてるので何か返してあげる
   }
 
-  /** READ */
-  const readProfile = async () => {
-    const data = await $fetch('/api/profile')
+  /** READ ALL */
+  const readProfileAll = async () => {
+    const data = await $fetch('/api/profiles')
+    await refreshNuxtData()
+    return data
+  }
+
+  /** READ ANY */
+  const readProfileAny = async (values) => {
+    const data = await $fetch(`/api/profiles/${values.targetId}`)
     await refreshNuxtData()
     return data
   }
 
   /** UPDATE */
   const updateProfile = async (values) => {
-    const data = await $fetch('/api/profile', {
+    const data = await $fetch('/api/profiles', {
       method: 'put',
       body: values,
     })
@@ -28,7 +35,7 @@ const useProfile = () => {
 
   /** DELETE */
   const deleteProfile = async (values) => {
-    const data = await $fetch('/api/profile', {
+    const data = await $fetch('/api/profiles', {
       method: 'delete',
       body: values,
     })
@@ -37,7 +44,7 @@ const useProfile = () => {
   }
 
   return {
-    createProfile, readProfile, updateProfile, deleteProfile
+    createProfile, readProfileAll, readProfileAny, updateProfile, deleteProfile
   }
 }
 export default useProfile

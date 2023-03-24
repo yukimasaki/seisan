@@ -5,9 +5,10 @@
         <h3>CRUD</h3>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="onClickCreate">create</v-btn>
-        <v-btn @click="onClickRead">read</v-btn>
-        <v-btn @click="onClickUpdate">update</v-btn>
+        <v-btn @click="onClickCreate">post</v-btn>
+        <v-btn @click="onClickReadAll">get all</v-btn>
+        <v-btn @click="onClickReadAny">get any</v-btn>
+        <v-btn @click="onClickUpdate">put</v-btn>
         <v-btn @click="onClickDelete">delete</v-btn>
       </v-card-actions>
     </v-card>
@@ -17,7 +18,7 @@
 <script setup>
   import {faker} from '@faker-js/faker'
 
-  const { createProfile, readProfile, updateProfile, deleteProfile } = useProfile()
+  const { createProfile, readProfileAll, readProfileAny, updateProfile, deleteProfile } = useProfile()
 
   const onClickCreate = async () => {
     await createProfile({
@@ -28,8 +29,15 @@
     })
   }
 
-  const onClickRead  = async () => {
-    const data = await readProfile()
+  const onClickReadAll  = async () => {
+    const data = await readProfileAll()
+    console.log(data)
+  }
+
+  const onClickReadAny  = async () => {
+    const data = await readProfileAny({
+      targetId: 1
+    })
     console.log(data)
   }
 
