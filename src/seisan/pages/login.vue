@@ -26,11 +26,12 @@
 </template>
 
 <script setup>
+  definePageMeta({ middleware: ['redirect-to-top'] })
   const loading = ref(false)
+  const { googleSignIn } = useAuth()
 
   const login = async () => {
     loading.value = true
-    const { googleSignIn } = useAuth()
     await googleSignIn()
     loading.value = false
   }

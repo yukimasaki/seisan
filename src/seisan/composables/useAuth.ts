@@ -25,7 +25,7 @@ const useAuth = () => {
       if (user) {
         /** TOOD: メッセージを実装 */
         alert(`すでにユーザー登録されています。`)
-        navigateTo('/login')
+        useRouter().push('/login')
       } else {
         console.log(googleUser)
         const values = {
@@ -37,7 +37,7 @@ const useAuth = () => {
         await createProfile({ ...values })
         /** TOOD: メッセージを実装 */
         alert(`ユーザー登録が完了しました。`)
-        navigateTo('/')
+        useRouter().push('/')
       }
     } catch (error) {
       console.log(error)
@@ -52,22 +52,44 @@ const useAuth = () => {
     console.log(user)
   }
 
-  const checkAuthState = async () => {
+  const requiresAuth = () => {
     const auth = getAuth()
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log(`authenticated`)
-        /** TODO: 下記コメントはデバッグのために使用しているので、開発完了後に削除する */
-        console.log(user)
-        navigateTo('/')
-      } else {
-        console.log(`not authenticated`)
-        navigateTo('/login')
-      }
+    return new Promise((resolve) => {
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          console.log(`not authenticated`)
+          useRouter().push('/login')
+        } else {
+          /** TODO: 下記コメントはデバッグのために使用しているので、開発完了後に削除する */
+          console.log(user)
+
+          console.log(`authenticated`)
+          resolve(user)
+        }
+      })
     })
   }
 
-  return { getUser, googleSignUp, googleSignIn, checkAuthState }
+  const redirectToTop = () => {
+    const auth = getAuth()
+    return new Promise((resolve) => {
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          console.log(`not authenticated`)
+          useRouter().push('/login')
+        } else {
+          /** TODO: 下記コメントはデバッグのために使用しているので、開発完了後に削除する */
+          console.log(user)
+
+          console.log(`authenticated`)
+          useRouter().push('/')
+          resolve(user)
+        }
+      })
+    })
+  }
+
+  return { getUser, googleSignUp, googleSignIn, requiresAuth, redirectToTop }
 }
 
 export default useAuth

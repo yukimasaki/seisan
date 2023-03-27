@@ -23,6 +23,7 @@
 </template>
 
 <script setup>
+  definePageMeta({ middleware: ['redirect-to-top'] })
   const loading = ref(false)
 
   const register = async () => {
