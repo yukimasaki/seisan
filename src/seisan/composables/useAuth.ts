@@ -7,6 +7,7 @@ const useAuth = () => {
   const { createProfile, readProfileAny } = useProfile()
 
   const getUser = async (uid) => {
+    return await readProfileAny({ targetId: uid })
   }
 
   const googleSignUp = async () => {
@@ -17,12 +18,12 @@ const useAuth = () => {
 
       console.log(googleUser)
 
-      /** todo: getUser(uid)に置き換える */
-      const user = null
+      /** TOOD: getUser(uid)に置き換える */
+      const user = await getUser(googleUser.user.uid)
 
       if (user) {
         /** TOOD: メッセージを実装 */
-        console.log(`すでにユーザー登録されています。`)
+        alert(`すでにユーザー登録されています。`)
         navigateTo('/login')
       } else {
         console.log(googleUser)
@@ -33,6 +34,7 @@ const useAuth = () => {
           avatar_url: googleUser.user.photoURL
         }
         await createProfile({ ...values })
+        /** TOOD: メッセージを実装 */
         alert(`ユーザー登録が完了しました。`)
       }
     } catch (error) {
@@ -41,7 +43,7 @@ const useAuth = () => {
     }
   }
 
-  return { googleSignUp }
+  return { getUser, googleSignUp }
 }
 
 export default useAuth

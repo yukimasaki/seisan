@@ -25,10 +25,10 @@
 <script setup>
   const loading = ref(false)
 
-  const register = () => {
+  const register = async () => {
     loading.value = true
     const { googleSignUp } = useAuth()
-    googleSignUp()
+    await googleSignUp()
     loading.value = false
   }
 </script>
