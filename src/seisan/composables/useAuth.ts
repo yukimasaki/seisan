@@ -2,6 +2,7 @@ import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
+  onAuthStateChanged,
 } from 'firebase/auth'
 const useAuth = () => {
   const { createProfile, readProfileAny } = useProfile()
@@ -36,6 +37,7 @@ const useAuth = () => {
         await createProfile({ ...values })
         /** TOOD: メッセージを実装 */
         alert(`ユーザー登録が完了しました。`)
+        navigateTo('/')
       }
     } catch (error) {
       console.log(error)
@@ -43,7 +45,29 @@ const useAuth = () => {
     }
   }
 
-  return { getUser, googleSignUp }
+  const googleSignIn = async () => {
+    const provider = new GoogleAuthProvider()
+    const auth = getAuth()
+    const { user } = await signInWithPopup(auth, provider)
+    console.log(user)
+  }
+
+  const checkAuthState = async () => {
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(`authenticated`)
+        /** TODO: 下記コメントはデバッグのために使用しているので、開発完了後に削除する */
+        console.log(user)
+        navigateTo('/')
+      } else {
+        console.log(`not authenticated`)
+        navigateTo('/login')
+      }
+    })
+  }
+
+  return { getUser, googleSignUp, googleSignIn, checkAuthState }
 }
 
 export default useAuth

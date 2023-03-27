@@ -5,19 +5,6 @@
         <v-card-title>
           ログイン
         </v-card-title>
-        <v-card-text>
-          <v-form>
-            <v-text-field
-              v-model="email"
-              label="メールアドレス"
-            />
-            <v-text-field
-              v-model="password"
-              label="パスワード"
-              type="password"
-            />
-          </v-form>
-        </v-card-text>
         <v-card-actions>
           <v-btn
             variant="elevated"
@@ -27,7 +14,7 @@
             @click="login"
             :loading="loading"
           >
-            ログイン
+            Googleでログイン
           </v-btn>
         </v-card-actions>
         <v-card-text>
@@ -39,4 +26,12 @@
 </template>
 
 <script setup>
+  const loading = ref(false)
+
+  const login = async () => {
+    loading.value = true
+    const { googleSignIn } = useAuth()
+    await googleSignIn()
+    loading.value = false
+  }
 </script>
