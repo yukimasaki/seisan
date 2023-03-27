@@ -4,6 +4,33 @@
       <v-toolbar-title>
         {{ storeSettings.appName }}
       </v-toolbar-title>
+      <v-menu v-if="storeProfile.profile"
+        min-width="200px"
+        rounded
+      >
+        <template v-slot:activator="{ props }">
+          <v-btn
+            text
+            v-bind="props"
+          >
+            <Avatar :avatarImage="avatarImage" class="mr-2" />
+            <p>{{ storeProfile.profile.displayName }}</p>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-text>
+            <div class="mx-auto text-center">
+              <Avatar :avatarImage="avatarImage" />
+              <h3>{{ storeProfile.profile.displayName }}</h3>
+              <p class="text-caption mt-1">{{ storeProfile.profile.email }}</p>
+              <v-divider class="my-3" />
+              <v-btn rounded text @click="profile">個人設定</v-btn>
+              <v-divider class="my-3" />
+              <v-btn rounded text @click="logout" :loading="loading">ログアウト</v-btn>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-menu>
     </v-app-bar>
 
     <v-main>
@@ -16,4 +43,33 @@
 
 <script setup>
   const storeSettings = useStoreSettings()
+  const storeProfile = useStoreProfile()
+
+  const loading = ref(false)
+
+  /** アバター画像ファイルの入れ物 */
+  const avatarImage = reactive({
+    url: null,
+    file: null
+  })
+
+  onMounted(async () => {
+    const { setProfile } = useAuth()
+    await setProfile()
+    if (storeProfile.profile) {
+      avatarImage.url = storeProfile.profile.photoURL
+    }
+  })
+
+  const profile = () => {
+    /** TODO: /profileへ遷移する処理を書く */
+    console.log(`/profileへ遷移する`)
+  }
+
+  const logout = () => {
+    loading.value = true
+    /** TODO: ログアウトする処理を書く */
+    console.log(`ログアウトする`)
+    loading.value = false
+  }
 </script>

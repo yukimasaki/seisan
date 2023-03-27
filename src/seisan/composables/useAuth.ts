@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
 } from 'firebase/auth'
+
 const useAuth = () => {
   const { createProfile, readProfileAny } = useProfile()
 
@@ -27,7 +28,6 @@ const useAuth = () => {
         alert(`すでにユーザー登録されています。`)
         useRouter().push('/login')
       } else {
-        console.log(googleUser)
         const values = {
           uid: googleUser.user.uid,
           display_name: googleUser.user.displayName,
@@ -52,18 +52,25 @@ const useAuth = () => {
     console.log(user)
   }
 
+  const setProfile = () => {
+    const storeProfile = useStoreProfile()
+
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        storeProfile.setProfile(user)
+      }
+    })
+  }
+
   const requiresAuth = () => {
     const auth = getAuth()
     return new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         if (!user) {
-          console.log(`not authenticated`)
           useRouter().push('/login')
+          resolve(user)
         } else {
-          /** TODO: 下記コメントはデバッグのために使用しているので、開発完了後に削除する */
-          console.log(user)
-
-          console.log(`authenticated`)
           resolve(user)
         }
       })
@@ -75,13 +82,8 @@ const useAuth = () => {
     return new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         if (!user) {
-          console.log(`not authenticated`)
-          useRouter().push('/login')
+          resolve(user)
         } else {
-          /** TODO: 下記コメントはデバッグのために使用しているので、開発完了後に削除する */
-          console.log(user)
-
-          console.log(`authenticated`)
           useRouter().push('/')
           resolve(user)
         }
@@ -89,7 +91,7 @@ const useAuth = () => {
     })
   }
 
-  return { getUser, googleSignUp, googleSignIn, requiresAuth, redirectToTop }
+  return { getUser, googleSignUp, googleSignIn, requiresAuth, redirectToTop, setProfile }
 }
 
 export default useAuth
