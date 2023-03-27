@@ -36,7 +36,7 @@
 
   const onClickReadAny  = async () => {
     const data = await readProfileAny({
-      targetId: 1
+      targetId: 'gIJwfkdneIVvl5Vn0SENgSebOeX2'
     })
     console.log(data)
   }

@@ -4,7 +4,7 @@ export default defineEventHandler(async (e) => {
 
   if (e.context.params) {
     const profile = await prisma.profile.findUnique({
-      where: { id: parseInt(e.context.params.id) }
+      where: { uid: e.context.params.uid }
     })
     return profile
   }
