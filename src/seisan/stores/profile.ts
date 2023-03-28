@@ -9,6 +9,10 @@ export const useStoreProfile = defineStore({
   actions: {
     setProfile (profile) {
       this.profile = profile
+    },
+
+    clearProfile () {
+      this.profile = null
     }
   },
 })

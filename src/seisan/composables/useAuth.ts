@@ -3,6 +3,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
+  signOut
 } from 'firebase/auth'
 
 const useAuth = () => {
@@ -20,11 +21,11 @@ const useAuth = () => {
 
       console.log(googleUser)
 
-      /** TOOD: getUser(uid)に置き換える */
+      /** TODO: getUser(uid)に置き換える */
       const user = await getUser(googleUser.user.uid)
 
       if (user) {
-        /** TOOD: メッセージを実装 */
+        /** TODO: メッセージを実装 */
         alert(`すでにユーザー登録されています。`)
         useRouter().push('/login')
       } else {
@@ -35,7 +36,7 @@ const useAuth = () => {
           avatar_url: googleUser.user.photoURL
         }
         await createProfile({ ...values })
-        /** TOOD: メッセージを実装 */
+        /** TODO: メッセージを実装 */
         alert(`ユーザー登録が完了しました。`)
         useRouter().push('/')
       }
@@ -65,6 +66,9 @@ const useAuth = () => {
 
   const requiresAuth = () => {
     const auth = getAuth()
+    /** TODO: 一瞬、遷移前のページが表示されてしまう対策としてPromiseで囲っているが、
+     *  Promiseを.thenに置き換えるとどうなるか試したい。
+     */
     return new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         if (!user) {
@@ -91,7 +95,21 @@ const useAuth = () => {
     })
   }
 
-  return { getUser, googleSignUp, googleSignIn, requiresAuth, requiresGuest, setProfile }
+  const googleSignOut = async () => {
+    const auth = getAuth()
+    await signOut(auth)
+    .then(() => {
+      const storeProfile = useStoreProfile()
+      storeProfile.clearProfile()
+      useRouter().push('/login')
+    })
+    .catch((error) => {
+      /** TODO: メッセージを実装 */
+      alert(error)
+    })
+  }
+
+  return { getUser, googleSignUp, googleSignIn, setProfile, requiresAuth, requiresGuest, googleSignOut }
 }
 
 export default useAuth

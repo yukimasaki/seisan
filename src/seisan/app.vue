@@ -44,6 +44,7 @@
 <script setup>
   const storeSettings = useStoreSettings()
   const storeProfile = useStoreProfile()
+  const { googleSignOut } = useAuth()
 
   const loading = ref(false)
 
@@ -52,10 +53,9 @@
     console.log(`/profileへ遷移する`)
   }
 
-  const logout = () => {
+  const logout = async () => {
     loading.value = true
-    /** TODO: ログアウトする処理を書く */
-    console.log(`ログアウトする`)
+    await googleSignOut()
     loading.value = false
   }
 </script>
