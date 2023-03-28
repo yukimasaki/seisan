@@ -77,7 +77,7 @@ const useAuth = () => {
     })
   }
 
-  const redirectToTop = () => {
+  const requiresGuest = () => {
     const auth = getAuth()
     return new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
@@ -91,7 +91,7 @@ const useAuth = () => {
     })
   }
 
-  return { getUser, googleSignUp, googleSignIn, requiresAuth, redirectToTop, setProfile }
+  return { getUser, googleSignUp, googleSignIn, requiresAuth, requiresGuest, setProfile }
 }
 
 export default useAuth

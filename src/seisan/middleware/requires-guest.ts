@@ -1,4 +1,4 @@
 export default defineNuxtRouteMiddleware(async () => {
-  const { redirectToTop } = useAuth()
-  await redirectToTop()
+  const { requiresGuest } = useAuth()
+  await requiresGuest()
 })
