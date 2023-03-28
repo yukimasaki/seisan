@@ -48,8 +48,8 @@ const useAuth = () => {
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider()
     const auth = getAuth()
-    const { user } = await signInWithPopup(auth, provider)
-    console.log(user)
+    await signInWithPopup(auth, provider)
+    setProfile()
   }
 
   const setProfile = () => {
