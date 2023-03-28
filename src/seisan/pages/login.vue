@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-  definePageMeta({ middleware: ['redirect-to-top'] })
+  definePageMeta({ middleware: ['requires-guest'] })
   const loading = ref(false)
   const { googleSignIn } = useAuth()
 
