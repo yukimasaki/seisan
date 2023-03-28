@@ -13,14 +13,14 @@
             text
             v-bind="props"
           >
-            <Avatar :avatarImage="avatarImage" class="mr-2" />
+            <Avatar class="mr-2" />
             <p>{{ storeProfile.profile.displayName }}</p>
           </v-btn>
         </template>
         <v-card>
           <v-card-text>
             <div class="mx-auto text-center">
-              <Avatar :avatarImage="avatarImage" />
+              <Avatar />
               <h3>{{ storeProfile.profile.displayName }}</h3>
               <p class="text-caption mt-1">{{ storeProfile.profile.email }}</p>
               <v-divider class="my-3" />
@@ -46,20 +46,6 @@
   const storeProfile = useStoreProfile()
 
   const loading = ref(false)
-
-  /** アバター画像ファイルの入れ物 */
-  const avatarImage = reactive({
-    url: null,
-    file: null
-  })
-
-  onMounted(async () => {
-    const { setProfile } = useAuth()
-    await setProfile()
-    if (storeProfile.profile) {
-      avatarImage.url = storeProfile.profile.photoURL
-    }
-  })
 
   const profile = () => {
     /** TODO: /profileへ遷移する処理を書く */
