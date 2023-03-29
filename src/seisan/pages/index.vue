@@ -2,6 +2,8 @@
   <div>
     <VCalendar
       expanded
+      borderless
+      :color="'primary-lighten-9'"
     />
   </div>
 </template>
