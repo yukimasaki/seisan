@@ -5,6 +5,7 @@
       borderless
       :color="'primary-lighten-9'"
     />
+    <v-divider class="mb-3" />
     <v-table class="text-no-wrap">
       <thead>
         <tr>
@@ -17,6 +18,12 @@
         </tr>
       </tbody>
     </v-table>
+    <v-btn
+      icon="mdi-pencil"
+      color="primary"
+      rounded
+      style="position: fixed; bottom: 10px; right: 10px;"
+    />
   </div>
 </template>
 
