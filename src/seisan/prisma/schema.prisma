@@ -28,7 +28,7 @@ model Payment {
   created_at              DateTime    @default(now()) @db.Timestamp(0)
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
   creator                 Profile     @relation(fields: [creator_id], references: [uid])
-  creator_id              String      @unique @db.VarChar(28)
+  creator_id              String      @db.VarChar(28)
   title                   String      @db.VarChar(100)
   total_expence           Int         @db.Int
   sharing_method          String      @db.VarChar(2)
@@ -49,7 +49,7 @@ model Sharing {
   sharing_payment         Payment     @relation(fields: [sharing_payment_id], references: [id])
   sharing_payment_id      Int
   payer                   Profile     @relation(fields: [payer_id], references: [uid])
-  payer_id                String      @unique @db.VarChar(28)
+  payer_id                String      @db.VarChar(28)
   ratio                   Float       @db.Float
   copayment               Int         @db.Int
 
@@ -62,9 +62,9 @@ model Debt {
   created_at              DateTime    @default(now()) @db.Timestamp(0)
   updated_at              DateTime    @default(now()) @updatedAt @db.Timestamp(0)
   debtor                  Profile     @relation(name: "debtor", fields: [debtor_id], references: [uid])
-  debtor_id               String      @unique @db.VarChar(28)
+  debtor_id               String      @db.VarChar(28)
   creditor                Profile     @relation(name: "creditor", fields: [creditor_id], references: [uid])
-  creditor_id             String      @unique @db.VarChar(28)
+  creditor_id             String      @db.VarChar(28)
   debt_payment            Payment     @relation(fields: [debt_payment_id], references: [id])
   debt_payment_id         Int
   amount                  Int         @db.Int
@@ -94,7 +94,7 @@ model Comment {
   comment_payment         Payment     @relation(fields: [comment_payment_id], references: [id])
   comment_payment_id      Int
   author                  Profile     @relation(fields: [author_id], references: [uid])
-  author_id               String      @unique @db.VarChar(28)
+  author_id               String      @db.VarChar(28)
   comment                 String      @db.Text
 
   @@index([comment_payment_id])
