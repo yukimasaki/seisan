@@ -4,7 +4,9 @@
       <v-toolbar-title>
         {{ storeSettings.appName }}
       </v-toolbar-title>
-      <v-menu v-if="storeProfile.profile"
+      <v-menu
+        v-if="storeProfile.profile"
+        transition="scroll-x-reverse-transition"
         min-width="200px"
         rounded
       >
