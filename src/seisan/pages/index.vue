@@ -1,6 +1,8 @@
 <template>
   <div>
-    this is index page.
+    <VCalendar
+      expanded
+    />
   </div>
 </template>
 
