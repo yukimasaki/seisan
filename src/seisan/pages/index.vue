@@ -37,17 +37,23 @@
     middleware: ['requires-auth']
   })
 
-
   const { readPaymentAll } = usePayment()
-  const rawData = await readPaymentAll()
+  const rawData = ref([])
+
+  const fetchData = async () => {
+    rawData.value = await readPaymentAll()
+  }
+  await fetchData()
 
   const { formatDate } = useFormatDate()
   const format = 'm/d(a)'
 
-  const formattedData = rawData.map(element => ({
-    ...element,
-    date: formatDate(new Date(element.date), format)
-  }))
+  const formattedData = computed(() => {
+    return rawData.value.map(element => ({
+      ...element,
+      date: formatDate(new Date(element.date), format)
+    }))
+  })
 
   /** 子コンポーネントのメソッドを呼び出すために必要 */
   const paymentDialog = ref()
