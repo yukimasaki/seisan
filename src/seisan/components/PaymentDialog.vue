@@ -56,7 +56,7 @@
           color="primary"
           text
           :disabled="!valid"
-          @click="onClickAction"
+          @click="onClickAction(formItems)"
         >
           {{ actionText }}
         </v-btn>
@@ -93,8 +93,23 @@
   const resetForm = (formItems) => {
   }
 
-  const onClickAction = () => {
-    console.log(formItems.title)
+  const onClickAction = async (formItems) => {
+    const storeProfile = useStoreProfile()
+    console.log(storeProfile.profile.uid)
+    const { createPayment } = usePayment()
+
+    await createPayment({
+      creator: {
+        connect: {
+          uid: storeProfile.profile.uid
+        }
+      },
+      title: formItems.title,
+      amount: parseInt(formItems.amount),
+      sharing_method: formItems.sharing_method,
+      status: '未',
+      date: formItems.date,
+    })
   }
 
   const onClickClose = () => {
