@@ -22,13 +22,13 @@
         <v-card>
           <v-card-text>
             <div class="mx-auto text-center">
-              <Avatar />
+              <Avatar class="mb-2" />
               <h3>{{ storeProfile.profile.displayName }}</h3>
               <p class="text-caption mt-1">{{ storeProfile.profile.email }}</p>
               <v-divider class="my-3" />
-              <v-btn rounded text @click="profile">個人設定</v-btn>
+              <v-btn flat density="compact" text @click="profile">個人設定</v-btn>
               <v-divider class="my-3" />
-              <v-btn rounded text @click="logout" :loading="loading">ログアウト</v-btn>
+              <v-btn flat density="compact" text @click="logout" :loading="loading">ログアウト</v-btn>
             </div>
           </v-card-text>
         </v-card>
