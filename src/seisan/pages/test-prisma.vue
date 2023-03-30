@@ -73,10 +73,10 @@
         }
       },
       title: '○○代',
-      total_expence: 4500,
+      amount: 4500,
       sharing_method: '比率',
       status: '未',
-      billing_date: new Date(),
+      date: new Date(),
     })
   }
   const paymentReadAll = async () => {

@@ -30,10 +30,10 @@ model Payment {
   creator                 Profile     @relation(fields: [creator_id], references: [uid])
   creator_id              String      @db.VarChar(28)
   title                   String      @db.VarChar(100)
-  total_expence           Int         @db.Int
+  amount                  Int         @db.Int
   sharing_method          String      @db.VarChar(2)
   status                  String      @db.VarChar(2)
-  billing_date            DateTime    @db.Timestamp(0)
+  date                    DateTime    @db.Timestamp(0)
   sharings                Sharing[]
   debts                   Debt[]
   image                   Image?
