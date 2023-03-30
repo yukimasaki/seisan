@@ -67,16 +67,16 @@
 </template>
 
 <script setup>
-  const show = ref(false)
-  const valid = ref(false)
-  const loading = ref(false)
-  const actionType = ref('add')
-  const formItems = reactive({
-    title: '',
-    amount: '',
-    sharing_method: '',
-    date: '',
-  })
+const show = ref(false)
+const valid = ref(false)
+const loading = ref(false)
+const actionType = ref('add')
+const formItems = reactive({
+  title: '',
+  amount: '',
+  sharing_method: '',
+  date: '',
+})
   const selectableItems = reactive(['比率', '均等'])
 
   const titleText = computed(() => {
@@ -91,9 +91,14 @@
     actionType.value = type
     resetForm(formItems)
   }
+  /** 親からの呼び出しに必要 */
+  defineExpose({ open })
 
   const resetForm = (formItems) => {
   }
+
+  /** 親メソッドの呼び出しに必要 */
+  const emit = defineEmits(['fetchData'])
 
   const onClickAction = async (formItems) => {
     loading.value = true
@@ -121,9 +126,4 @@
     show.value = false
   }
 
-  /** 親からの呼び出しに必要 */
-  defineExpose({ open })
-
-  /** 親メソッドの呼び出しに必要 */
-  const emit = defineEmits(['fetchData'])
 </script>

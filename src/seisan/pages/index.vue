@@ -42,6 +42,7 @@
 
   const fetchData = async () => {
     rawData.value = await readPaymentAll()
+    console.log(`呼び出し成功`)
   }
   await fetchData()
 
