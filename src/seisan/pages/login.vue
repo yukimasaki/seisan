@@ -18,7 +18,7 @@
           </v-btn>
         </v-card-actions>
         <v-card-text>
-          <p><nuxt-link to="/register">ユーザー登録</nuxt-link></p>
+          <p><NuxtLink to="/register">ユーザー登録</NuxtLink></p>
         </v-card-text>
       </v-card>
     </v-col>

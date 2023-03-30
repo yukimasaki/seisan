@@ -18,13 +18,9 @@ const useAuth = () => {
       const provider = new GoogleAuthProvider()
       const auth = getAuth()
       const googleUser = await signInWithPopup(auth, provider)
+      const dbuser = await getUser(googleUser.user.uid)
 
-      console.log(googleUser)
-
-      /** TODO: getUser(uid)に置き換える */
-      const user = await getUser(googleUser.user.uid)
-
-      if (user) {
+      if (dbuser) {
         /** TODO: メッセージを実装 */
         alert(`すでにユーザー登録されています。`)
         useRouter().push('/login')
@@ -49,17 +45,27 @@ const useAuth = () => {
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider()
     const auth = getAuth()
-    await signInWithPopup(auth, provider)
-    setProfile()
+    const googleUser = await signInWithPopup(auth, provider)
+    const dbuser = await getUser(googleUser.user.uid)
+
+    if (!dbuser) {
+      alert(`ユーザー登録をしてください。`)
+      useRouter().push('/register')
+    } else {
+      setProfile()
+    }
   }
 
   const setProfile = () => {
     const storeProfile = useStoreProfile()
-
     const auth = getAuth()
-    onAuthStateChanged(auth, (user) => {
+
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        storeProfile.setProfile(user)
+        const dbuser = await getUser(user.uid)
+        if (dbuser) {
+          storeProfile.setProfile(user)
+        }
       }
     })
   }
@@ -70,12 +76,19 @@ const useAuth = () => {
      *  Promiseを.thenに置き換えるとどうなるか試したい。
      */
     return new Promise((resolve) => {
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         if (!user) {
           useRouter().push('/login')
           resolve(user)
-        } else {
-          resolve(user)
+        }
+        if (user) {
+          const dbuser = await getUser(user.uid)
+          if (!dbuser) {
+            useRouter().push('/login')
+            resolve(user)
+          } else {
+            resolve(user)
+          }
         }
       })
     })
