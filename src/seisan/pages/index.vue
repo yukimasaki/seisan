@@ -25,7 +25,10 @@
       icon="mdi-pencil"
       color="primary"
       style="position: fixed; bottom: 10px; right: 10px;"
+      @click="onClickAdd"
     />
+
+    <PaymentDialog ref="paymentDialog" />
   </div>
 </template>
 
@@ -33,6 +36,7 @@
   definePageMeta({
     middleware: ['requires-auth']
   })
+
 
   const { readPaymentAll } = usePayment()
   const rawData = await readPaymentAll()
@@ -44,6 +48,13 @@
     ...element,
     date: formatDate(new Date(element.date), format)
   }))
+
+  /** 子コンポーネントのメソッドを呼び出すために必要 */
+  const paymentDialog = ref()
+
+  const onClickAdd = () => {
+    paymentDialog.value.open('add')
+  }
 </script>
 
 <style>
