@@ -11,11 +11,11 @@ services:
       - "../src:/var/www/html"
       - "/etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt"
     tty: true
-  ngrok:
-    container_name: ngrok
-    image: wernight/ngrok:latest
-    ports:
-      - ${NGROK_PORT:-4040}:4040
-    environment:
-      NGROK_PORT: seisan:3000
-      NGROK_AUTH: ${NGROK_AUTH}
+  # ngrok:
+  #   container_name: ngrok
+  #   image: wernight/ngrok:latest
+  #   ports:
+  #     - ${NGROK_PORT:-4040}:4040
+  #   environment:
+  #     NGROK_PORT: seisan:3000
+  #     NGROK_AUTH: ${NGROK_AUTH}
