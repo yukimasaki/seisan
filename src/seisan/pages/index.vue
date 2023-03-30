@@ -21,7 +21,6 @@
     <v-btn
       icon="mdi-pencil"
       color="primary"
-      rounded
       style="position: fixed; bottom: 10px; right: 10px;"
     />
   </div>
