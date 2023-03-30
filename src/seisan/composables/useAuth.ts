@@ -45,14 +45,21 @@ const useAuth = () => {
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider()
     const auth = getAuth()
+    /** TODO: ログインボタンを押すと、signInWithPopupの解決を待機して、loadingがくるくると回り続ける。
+     *  くるくるが終わった後も数秒ログイン画面が表示され続けるのはストレス
+     *  もう少し解決までの時間を早くしてログイン処理を高速化できないか？
+     *  画面全体にローディングアイコンを表示してごまかす？
+     */
     const googleUser = await signInWithPopup(auth, provider)
     const dbuser = await getUser(googleUser.user.uid)
 
     if (!dbuser) {
       alert(`ユーザー登録をしてください。`)
       useRouter().push('/register')
+      return
     } else {
-      setProfile()
+      useRouter().push('/')
+      return
     }
   }
 
