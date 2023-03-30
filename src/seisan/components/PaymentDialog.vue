@@ -3,7 +3,7 @@
     v-model="show"
     scrollable
     persistent
-    max-width="500px"
+    fullscreen
     eager
   >
     <v-card>
@@ -11,6 +11,35 @@
       <v-divider/>
       <v-card-text>
         <v-form ref="form" v-model="valid">
+          <v-text-field
+            v-model="formItems.title"
+            label="タイトル"
+            density="compact"
+          />
+
+          <v-text-field
+            v-model="formItems.amount"
+            label="金額"
+            density="compact"
+            suffix="円"
+          />
+
+          <v-select
+            v-model="formItems.sharing_method"
+            label="負担方法"
+            :items="selectableItems"
+          />
+
+          <VDatePicker v-model="formItems.date">
+            <template #default="{ inputValue, inputEvents }">
+              <v-text-field
+                :model-value="formItems.date"
+                label="日付"
+                :value="inputValue"
+                v-on="inputEvents"
+              />
+            </template>
+          </VDatePicker>
         </v-form>
       </v-card-text>
       <v-divider/>
@@ -40,6 +69,13 @@
   const show = ref(false)
   const valid = ref(false)
   const actionType = ref('add')
+  const formItems = reactive({
+    title: '',
+    amount: '',
+    sharing_method: '',
+    date: '',
+  })
+  const selectableItems = reactive(['比率', '均等'])
 
   const titleText = computed(() => {
     return actionType.value === 'add' ? 'データ追加': 'データ編集'
@@ -48,16 +84,17 @@
     return actionType.value === 'add' ? '追加' : '更新'
   })
 
-  const open = (type, item = {}) => {
+  const open = (type, formItems = {}) => {
     show.value = true
     actionType.value = type
-    resetForm(item)
+    resetForm(formItems)
   }
 
-  const resetForm = (item) => {
+  const resetForm = (formItems) => {
   }
 
   const onClickAction = () => {
+    console.log(formItems.title)
   }
 
   const onClickClose = () => {
