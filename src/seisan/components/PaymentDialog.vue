@@ -56,6 +56,7 @@
           color="primary"
           text
           :disabled="!valid"
+          :loading="loading"
           @click="onClickAction(formItems)"
         >
           {{ actionText }}
@@ -68,6 +69,7 @@
 <script setup>
   const show = ref(false)
   const valid = ref(false)
+  const loading = ref(false)
   const actionType = ref('add')
   const formItems = reactive({
     title: '',
@@ -94,10 +96,9 @@
   }
 
   const onClickAction = async (formItems) => {
+    loading.value = true
     const storeProfile = useStoreProfile()
-    console.log(storeProfile.profile.uid)
     const { createPayment } = usePayment()
-
     await createPayment({
       creator: {
         connect: {
@@ -110,6 +111,10 @@
       status: '未',
       date: formItems.date,
     })
+
+    await emit('fetchData')
+    loading.value = false
+    show.value = false
   }
 
   const onClickClose = () => {
@@ -118,4 +123,7 @@
 
   /** 親からの呼び出しに必要 */
   defineExpose({ open })
+
+  /** 親メソッドの呼び出しに必要 */
+  const emit = defineEmits(['fetchData'])
 </script>
